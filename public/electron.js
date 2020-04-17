@@ -1,6 +1,8 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require("path");
 const isDev =require("electron-is-dev");
+
+Menu.setApplicationMenu(null);
 
 function createWindow () {
     // Create the browser window.
@@ -18,7 +20,10 @@ function createWindow () {
     );
 
     // Open the DevTools.
-    win.webContents.openDevTools()
+    if(isDev){
+        win.webContents.openDevTools({mode: "undocked"});
+    }
+
 }
 
 // This method will be called when Electron has finished
