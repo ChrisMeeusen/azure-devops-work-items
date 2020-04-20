@@ -1,0 +1,45 @@
+@import "~foundation-sites/scss/foundation";
+
+label {
+    font-weight: 600;
+}
+
+.switch {
+    height: 6em !important;
+}
+
+.form-row {
+    margin-top: .5em;
+    display: flex;
+    width: 100%;
+    height: 5em;
+}
+
+.form-group {
+    width:35em;
+}
+
+.form-group-switch {
+    width: 15em;
+}
+
+.link {
+    color: black;
+    font-weight: normal;
+    max-width: 6em;
+    margin-left: .75em;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 0rem;
+}
+
+.form-row {
+    height: 4em;
+}
+
+.button-row{
+    margin-top: 1em;
+    padding-top: 1em;
+    width:100%;
+    border-top: 3px solid $light-gray;
+}

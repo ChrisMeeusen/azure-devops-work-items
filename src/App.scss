@@ -13,6 +13,9 @@
 
 @include foundation-menu;
 
+@include foundation-forms;
+@include foundation-switch;
+
 body {
   background-color: $light-gray;
 }
