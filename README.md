@@ -1,6 +1,6 @@
-##Azure Devops Workitem Hooks
+## Azure Devops Work Items
 
-###Table of Conents:
+### Table of Conents:
 * [Description](#description)
 * [Installation](#install)
 * [Settings](#settings)
@@ -15,47 +15,47 @@
 
 <a name="description" />
 
-####Description
+#### Description
 The purpose of this package is to provide you with a commit git hook that will conveniently show you a list of work items 
 that are in your current sprint.
 
 <a name="install"/>
 
-####Install
+#### Install
 
 
 <a name="settings" />
 
-####Settings
+#### Settings
 There is a little setup required the first time you use this hook, but once you input your settings the hook will store them and use them 
 in all future runs.
 
 <a name="default" />
 
-#####Default
+##### Default
 
 
 <a name="repo" />
 
-#####Repo
+##### Repo
 
 <a name="pat" />
 
-#####Personal Access Token
+##### Personal Access Token
 
 <a name="org" />
 
-#####Organization
+##### Organization
 
 <a name="team" />
 
-#####Team
+##### Team
 
 <a name="project" />
 
-#####Project
+##### Project
 
 
 <a name="rememberWI" />
 
-#####Remember Selected Work Items?
+##### Remember Selected Work Items?
