@@ -1,5 +1,5 @@
 {
-  "name": "azure-devops-browse",
+  "name": "azure-devops-workitem-hook",
   "version": "0.1.0",
   "main": "public/electron.js",
   "private": true,

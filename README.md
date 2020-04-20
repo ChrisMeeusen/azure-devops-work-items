@@ -1,44 +1,61 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##Azure Devops Workitem Hooks
 
-## Available Scripts
+###Table of Conents:
+* [Description](#description)
+* [Installation](#install)
+* [Settings](#settings)
+  * [Default](#default)
+  * [Repo](#repo)
+  * [Personal Access Token](#pat)
+  * [Organization](#org)
+  * [Team](#team)
+  * [Project](#project)
+  * [Remember Selected Work Items?](#remeberWI)
 
-In the project directory, you can run:
 
-### `npm start`
+<a name="description" />
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+####Description
+The purpose of this package is to provide you with a commit git hook that will conveniently show you a list of work items 
+that are in your current sprint.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<a name="install"/>
 
-### `npm test`
+####Install
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+<a name="settings" />
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+####Settings
+There is a little setup required the first time you use this hook, but once you input your settings the hook will store them and use them 
+in all future runs.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<a name="default" />
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#####Default
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<a name="repo" />
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#####Repo
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<a name="pat" />
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#####Personal Access Token
 
-## Learn More
+<a name="org" />
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#####Organization
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<a name="team" />
+
+#####Team
+
+<a name="project" />
+
+#####Project
+
+
+<a name="rememberWI" />
+
+#####Remember Selected Work Items?
