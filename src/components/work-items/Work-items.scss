@@ -1,0 +1,6 @@
+@import "~foundation-sites/scss/foundation";
+@import "src/shared";
+
+.work-items {
+  @include fade-in();
+}

@@ -1,8 +1,12 @@
 import React from 'react';
+import './Work-items.scss';
 
 const WorkItems = () => {
     return (
-      <h6>Work Items</h6>
+        <div className="work-items">
+            <h5>Work Items</h5>
+        </div>
+
     );
 }
 

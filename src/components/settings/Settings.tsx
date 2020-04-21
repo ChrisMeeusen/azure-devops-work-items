@@ -13,7 +13,7 @@ class Settings extends React.Component<{ settings: SettingsViewModel }> {
             : `These settings are used for this specific git repository.  If nothing is set here then the default settings are 
             used.  For more information see the <a href="https://github.com/ChrisMeeusen/azure-devops-work-items#repo" target="_blank">documentation.</a>`;
         return (
-            <div>
+            <div className="settings">
                 <h5>{settings.mode} Settings</h5>
                 <p dangerouslySetInnerHTML={{__html: description}}></p>
                 <form>

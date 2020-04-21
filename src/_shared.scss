@@ -1,0 +1,13 @@
+@mixin fade-in() {
+  @-webkit-keyframes fadeEffect {
+    from {opacity: .3;}
+    to {opacity: 1;}
+  }
+  @keyframes fadeEffect {
+    from {opacity: .3;}
+    to {opacity: 1;}
+  }
+
+  -webkit-animation: fadeEffect .5s;
+  animation: fadeEffect .5s; /* Fading effect takes 1 second */
+}

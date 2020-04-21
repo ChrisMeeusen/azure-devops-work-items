@@ -11,13 +11,10 @@ const AppLayout = () => {
     const repoSettings = { mode: SettingMode.Repo} as SettingsViewModel;
     const defaultSettings = { mode: SettingMode.Default} as SettingsViewModel;
 
-    debugger;
-
     ipc.on('conf-read', ((event :any, args: any) => {
         console.log('conf-read', args);
     }));
 
-    debugger;
     ipc.send('react-loaded', {});
 
     return (
@@ -27,13 +24,19 @@ const AppLayout = () => {
                 <Menu></Menu>
                 <div className="callout router-outlet">
                     <Switch>
-                        <Route path="/work-items">
+                        <Route
+                            key="1"
+                            path="/work-items">
                             <WorkItems />
                         </Route>
-                        <Route path="/settings/repo">
+                        <Route
+                            key="2"
+                            path="/settings/repo">
                             <Settings settings={ repoSettings }/>
                         </Route>
-                        <Route path="/settings/default">
+                        <Route
+                            key="3"
+                            path="/settings/default">
                             <Settings settings={ defaultSettings }/>
                         </Route>
                         <Redirect to="/work-items"></Redirect>
