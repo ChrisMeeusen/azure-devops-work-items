@@ -1,0 +1,22 @@
+@import "~foundation-sites/scss/foundation";
+
+.header {
+  width: 100%;
+  top: 0;
+  left:0;
+  position: fixed;
+  background-color: white;
+  margin:0;
+  padding: 1em 1em 0em 1em;
+  overflow: hidden;
+  z-index: 999;
+
+  -webkit-box-shadow: 0 4px 6px -6px #222;
+  -moz-box-shadow: 0 4px 6px -6px #222;
+  box-shadow: 0 4px 6px -6px #222;
+}
+
+.main {
+  margin-top: 93px;
+  z-index: 1;
+}

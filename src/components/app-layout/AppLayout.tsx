@@ -1,4 +1,5 @@
 import React from 'react';
+import './AppLayout.scss';
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Menu from "../menu/Menu";
 import WorkItems from "../work-items/Work-items";
@@ -19,10 +20,12 @@ const AppLayout = () => {
 
     return (
         <Router>
-            <div className="callout">
-                <h5>Azure Devops Browse</h5>
+            <div className="header">
+                <h5>Azure Devops Work Items</h5>
                 <Menu></Menu>
-                <div className="callout router-outlet">
+            </div>
+            <div className="callout main">
+                <div className="router-outlet">
                     <Switch>
                         <Route
                             key="1"
