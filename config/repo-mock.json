@@ -2,7 +2,8 @@
   "mode": "Repo",
   "personalAccessToken": "MockToken",
   "rememberLastSelectedWorkItems": false,
-  "organization": "MockOrg",
+  "organization": "MockOrg-updated-and-such",
   "team": "MockTeam",
-  "project": "MockProject"
+  "project": "MockProject-updated",
+  "filePath": "C:\\github\\azure-devops-browse\\config\\repo-mock.json"
 }

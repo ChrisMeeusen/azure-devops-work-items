@@ -10,7 +10,7 @@
   * [Organization](#org)
   * [Team](#team)
   * [Project](#project)
-  * [Remember Selected Work Items?](#remeberWI)
+  * [Remember Selected Work Items?](#remember-work-items)
 
 
 <a name="description" />
@@ -56,6 +56,6 @@ in all future runs.
 ##### Project
 
 
-<a name="rememberWI" />
+<a name="remember-work-items" />
 
 ##### Remember Selected Work Items?

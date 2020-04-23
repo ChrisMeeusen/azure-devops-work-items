@@ -5,10 +5,6 @@ label {
     font-weight: 600;
 }
 
-.switch {
-    height: 6em !important;
-}
-
 .form-row {
     margin-top: .5em;
     display: flex;
@@ -22,6 +18,7 @@ label {
 
 .form-group-switch {
     width: 15em;
+    z-index: 10;
 }
 
 .link {
@@ -48,3 +45,38 @@ label {
 .settings {
     @include fade-in();
 }
+
+.switch-link {
+    margin-left: -10em;
+    margin-bottom: .25em;
+    z-index: 11;
+}
+
+.fieldset{
+    width: fit-content;
+    margin:0em;
+}
+
+.button {
+    margin-bottom: 0;
+}
+
+.toggle-row {
+    height: 5.5em;
+
+    .control-group &:not(:nth-child(1)){
+        margin-left: 1em;
+    }
+}
+
+.control-group {
+    min-width: 8em;
+}
+.control-group.fs {
+    width: 24em;
+}
+
+fieldset.fieldset {
+    padding: .5em;
+}
+

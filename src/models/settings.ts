@@ -1,11 +1,16 @@
+import {WorkItemType} from "./work-item";
+
 export class SettingsViewModel {
     mode?: SettingMode;
     filePath?: string;
     personalAccessToken?: string;
-    rememberLastSelectedWorkItems?: boolean;
+    rememberWorkItems?: boolean;
     organization?: string;
     team?: string;
     project?: string;
+    showTasks?: boolean;
+    workItemTypesToQuery: WorkItemType[];
+    hasBeenLoaded: boolean;
 }
 
 export enum SettingMode {
@@ -13,3 +18,7 @@ export enum SettingMode {
     Default = 'Default'
 }
 
+export interface SettingsComponentState {
+    settings: SettingsViewModel,
+    showToken: boolean
+}

@@ -3,7 +3,7 @@ const path = require("path");
 const isDev =require("electron-is-dev");
 const fs = require("fs");
 const readFileToPromise = require("util").promisify(fs.readFile);
-
+const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
 Menu.setApplicationMenu(null);
 
@@ -78,32 +78,12 @@ function createWindow () {
                 event.sender.send('conf-read', values);
             }))
             .catch(reason => console.log(reason));
-
-
-       /* fs.readFile(rFile, ((err, data) => {
-            data = data ?? {};
-            data.filePath = rFile;
-            event.sender.send('repo-conf-read', data);
-        }));
-
-        fs.readFile(dFile, ((err, data) => {
-            data = data ?? {};
-            data.filePath = dFile;
-            event.sender.send('default-conf-read', dFile);
-        }));*/
-
     });
-
-
-
-
-
 
     // Open the DevTools.
     if(isDev){
         win.webContents.openDevTools({mode: "undocked"});
     }
-
 }
 
 // This method will be called when Electron has finished
@@ -130,3 +110,9 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+if(isDev){
+    app.whenReady().then(()=> {
+        installExtension(REDUX_DEVTOOLS);
+    });
+}

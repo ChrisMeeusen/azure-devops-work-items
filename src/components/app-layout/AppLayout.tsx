@@ -4,19 +4,10 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom
 import Menu from "../menu/Menu";
 import WorkItems from "../work-items/Work-items";
 import Settings from "../settings/Settings";
-import {SettingMode, SettingsViewModel} from "../../models/settings";
-const ipc = window.require("electron").ipcRenderer;
+import {SettingMode} from "../../models/settings";
+
 
 const AppLayout = () => {
-
-    const repoSettings = { mode: SettingMode.Repo} as SettingsViewModel;
-    const defaultSettings = { mode: SettingMode.Default} as SettingsViewModel;
-
-    ipc.on('conf-read', ((event :any, args: any) => {
-        console.log('conf-read', args);
-    }));
-
-    ipc.send('react-loaded', {});
 
     return (
         <Router>
@@ -35,12 +26,12 @@ const AppLayout = () => {
                         <Route
                             key="2"
                             path="/settings/repo">
-                            <Settings settings={ repoSettings }/>
+                            <Settings mode={SettingMode.Repo}/>
                         </Route>
                         <Route
                             key="3"
                             path="/settings/default">
-                            <Settings settings={ defaultSettings }/>
+                            <Settings mode={SettingMode.Default}/>
                         </Route>
                         <Redirect to="/work-items"></Redirect>
                     </Switch>
