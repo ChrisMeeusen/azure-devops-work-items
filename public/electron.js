@@ -17,7 +17,20 @@ const extractArg = ( argName ) => {
     return arg.split(`${argName}=`).pop() || null;
 };
 
-
+const createSettings = (filePath, mode) => {
+    return {
+        mode: mode,
+        filePath: filePath,
+        personalAccessToken: '',
+        rememberWorkItems: '',
+        organization: '',
+        team: '',
+        project: '',
+        showTasks: false,
+        workItemTypesToQuery: [],
+        hasBeenLoaded: false
+    };
+};
 
 function createWindow () {
     // Create the browser window.
@@ -40,16 +53,28 @@ function createWindow () {
         shell.openExternal(url);
     });
 
-    const rFile = extractArg('repoPath') ?? path.join(__dirname,'../config/repo-mock.json');
+    const rFile = !isDev ? process.cwd() : path.join(__dirname,'../config/repo-conf.json');
     const dFile = path.join(app.getPath("appData"), 'azure-devops-work-items', 'conf.json');
 
-    const readRepo = readFileToPromise(rFile,'utf8')
-        .then(data => {
-           const obj = JSON.parse(data);
-           obj.filePath=rFile;
-           obj.mode='Repo';
-           return obj;
-        });
+    //TODO refactor these functions
+    const readRepo = new Promise((resolve, reject) => {
+        try {
+            if(fs.existsSync(rFile)) {
+                resolve(
+                    readFileToPromise(rFile)
+                    .then( data => {
+                        const obj =JSON.parse(data);
+                        obj.filePath = dFile;
+                        obj.mode = 'Repo';
+                        return obj;
+                    })
+                );
+            }
+            resolve(createSettings(rFile,'Repo'));
+        } catch (e) {
+            reject('bad things happened', e);
+        }
+    });
 
     //const readDefault = readFileToPromise(dFile);
     const readDefault = new Promise((resolve, reject) => {
@@ -65,7 +90,7 @@ function createWindow () {
                     })
                 );
             }
-            resolve({filePath: dFile, mode: 'Default'});
+            resolve(createSettings(dFile, 'Default'));
         } catch (e) {
             reject('bad things happened', e);
         }
@@ -85,6 +110,8 @@ function createWindow () {
         win.webContents.openDevTools({mode: "undocked"});
     }
 }
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
