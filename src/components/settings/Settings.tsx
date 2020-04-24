@@ -5,6 +5,7 @@ import {AdoState} from "../../redux/reducer";
 import {connect} from "react-redux";
 import {saveSettings} from "../../services/config-service";
 import {saveDefaultSettings, saveRepoSettings} from "../../redux/actions";
+import {WorkItemType} from "../../models/work-item";
 
 class Settings extends React.Component<
     {   mode: SettingMode | undefined,
@@ -22,10 +23,17 @@ class Settings extends React.Component<
 
         this.state = {
             settings: settings,
-            showToken: showToken
+            showToken: showToken,
+            rememberSelectedWorkItems: (settings?.rememberWorkItems as boolean) ?? false,
+            showTasks: (settings?.showTasks as boolean) ?? false,
+            inclBugs: settings.workItemTypesToQuery?.some(wi => wi === WorkItemType.BUG) ?? true,
+            inclSupportRequest: settings.workItemTypesToQuery?.some(wi => wi === WorkItemType.SUPPORT_REQUEST) ?? true,
+            inclUserRequest: settings.workItemTypesToQuery?.some(wi => wi === WorkItemType.USER_REQUEST) ?? true
         };
 
+        this.handleKeyUp = this.handleKeyUp.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleWorkItemTypeChange = this.handleWorkItemTypeChange.bind(this);
     }
 
     getSettingsFromProps() {
@@ -54,21 +62,78 @@ class Settings extends React.Component<
         });
     }
 
+    handleWorkItemTypeChange(event: any) {
+        const target = event.target;
+
+        const value = target.name;
+        const isChecked = target.checked;
+
+        const s = this.state.settings;
+        s.workItemTypesToQuery = s.workItemTypesToQuery ?? [];
+
+        if(isChecked  && !s.workItemTypesToQuery?.some(wi => wi === value)) {
+            s.workItemTypesToQuery.push(value);
+        } else {
+            s.workItemTypesToQuery = s.workItemTypesToQuery.filter(wi => wi !== value);
+        }
+
+        const newState = {
+            showToken: this.state.showToken,
+            settings: s
+        } as SettingsComponentState;
+
+        switch (value) {
+            case WorkItemType.USER_REQUEST:
+                newState.inclUserRequest = isChecked;
+            break;
+            case WorkItemType.SUPPORT_REQUEST:
+                newState.inclSupportRequest = isChecked;
+            break;
+            case WorkItemType.BUG:
+                newState.inclBugs = isChecked;
+            break;
+        }
+        this.setState(newState);
+    }
+
     componentWillReceiveProps(nextProps: any , nextContext: any): void {
         const s =  nextProps.mode === SettingMode.Default ?
             nextProps.defaultSettings as SettingsViewModel:
             nextProps.repoSettings as SettingsViewModel;
 
         const showToken = this.showToken(s);
-
-        this.setState({
+        const nextState = {
             showToken: showToken,
-            settings: s
-        });
+            settings: s,
+            rememberSelectedWorkItems: (s?.rememberWorkItems as boolean) ?? false,
+            showTasks: (s?.showTasks as boolean) ?? false,
+            inclBugs: s.workItemTypesToQuery?.some(wi => wi === WorkItemType.BUG) ?? true,
+            inclSupportRequest: s.workItemTypesToQuery?.some(wi => wi === WorkItemType.SUPPORT_REQUEST) ?? true,
+            inclUserRequest: s.workItemTypesToQuery?.some(wi => wi === WorkItemType.USER_REQUEST) ?? true
+        };
+        console.log('next props', nextProps);
+        console.log('next state', nextState);
+        this.setState(nextState);
+    }
+
+    handleKeyUp  = (e: any) => {
+        if (e.key === 'Enter') {
+           this.formSubmit();
+        }
     }
 
     formSubmit = () => {
         try{
+            this.state.settings.workItemTypesToQuery = this.state.settings.workItemTypesToQuery ?? [];
+            if(this.state?.inclBugs && !this.state?.settings?.workItemTypesToQuery?.some(wi => wi === WorkItemType.BUG)){
+                this.state.settings.workItemTypesToQuery.push(WorkItemType.BUG);
+            }
+            if(this.state?.inclSupportRequest && !this.state?.settings?.workItemTypesToQuery?.some(wi => wi === WorkItemType.SUPPORT_REQUEST)){
+                this.state.settings.workItemTypesToQuery.push(WorkItemType.SUPPORT_REQUEST);
+            }
+            if(this.state?.inclUserRequest && !this.state?.settings?.workItemTypesToQuery?.some(wi => wi === WorkItemType.USER_REQUEST)) {
+                this.state.settings.workItemTypesToQuery.push(WorkItemType.USER_REQUEST);
+            }
             saveSettings(this.state.settings);
 
             this.state.settings.mode === SettingMode.Default
@@ -78,7 +143,6 @@ class Settings extends React.Component<
         } catch (e) {
             console.log(e);
         }
-
     };
 
     render() {
@@ -89,7 +153,7 @@ class Settings extends React.Component<
             : `These settings are used for this specific git repository.  If nothing is set here then the default settings are 
             used.  For more information see the <a href="https://github.com/ChrisMeeusen/azure-devops-work-items#repo" target="_blank">documentation.</a>`;
         return (
-            <div className="settings">
+            <div className="settings" onKeyUp={this.handleKeyUp}>
                 <h5>{this.state.settings?.mode} Settings</h5>
                 <p dangerouslySetInnerHTML={{__html: description}}></p>
                 <form>
@@ -108,13 +172,6 @@ class Settings extends React.Component<
                                    onChange={this.handleInputChange}
                                    placeholder="Personal Access Token"/>
                         </div>
-
-                        <div className="form-group link">
-                            <a rel="noopener noreferrer"
-                               target="_blank"
-                               href="https://github.com/ChrisMeeusen/azure-devops-work-items#pat"
-                            >What's this?</a>
-                        </div>
                     </div>
 
                     <div className="form-row">
@@ -126,12 +183,6 @@ class Settings extends React.Component<
                                    value={this.state.settings?.organization}
                                    onChange={this.handleInputChange}
                                    placeholder="Organization"/>
-                        </div>
-                        <div className="form-group link">
-                            <a rel="noopener noreferrer"
-                               target="_blank"
-                               href="https://github.com/ChrisMeeusen/azure-devops-work-items#org"
-                            >What's this?</a>
                         </div>
                     </div>
 
@@ -145,13 +196,6 @@ class Settings extends React.Component<
                                    placeholder="Team"
                                    type="text" />
                         </div>
-                        <div className="form-group link">
-                            <a
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                href="https://github.com/ChrisMeeusen/azure-devops-work-items#team"
-                            >What's this?</a>
-                        </div>
                     </div>
 
                     <div className="form-row">
@@ -164,13 +208,6 @@ class Settings extends React.Component<
                                    onChange={this.handleInputChange}
                                    type="text" />
                         </div>
-                        <div className="form-group link">
-                            <a
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                href="https://github.com/ChrisMeeusen/azure-devops-work-items#project"
-                            >What's this?</a>
-                        </div>
                     </div>
 
                     <div className="form-row toggle-row">
@@ -178,14 +215,22 @@ class Settings extends React.Component<
                         <div className="control-group fs">
                             <fieldset className="fieldset">
                                 <legend>Work Item Types</legend>
-                                <input id="checkbox12" type="checkbox"/><label htmlFor="checkbox12">User Requests</label>
-                                <input id="checkbox22" type="checkbox"/><label htmlFor="checkbox22">Support Requests</label>
-                                <input id="checkbox32" type="checkbox"/><label htmlFor="checkbox32">Bugs</label>
+                                <input checked={this.state.inclUserRequest}
+                                       onChange={this.handleWorkItemTypeChange}
+                                       name={WorkItemType.USER_REQUEST}
+                                       id="ur-chx-box" type="checkbox"/><label htmlFor="ur-chx-box">User Requests</label>
+                                <input checked={this.state.inclSupportRequest}
+                                       onChange={this.handleWorkItemTypeChange}
+                                       name={WorkItemType.SUPPORT_REQUEST}
+                                       id="sr-chx-box" type="checkbox"/><label htmlFor="sr-chx-box">Support Requests</label>
+                                <input checked={this.state.inclBugs}
+                                       onChange={this.handleWorkItemTypeChange}
+                                       name={WorkItemType.BUG}
+                                       id="bg-chx-box" type="checkbox"/><label htmlFor="bg-chx-box">Bugs</label>
                             </fieldset>
                         </div>
 
                         <div className="control-group">
-
                             <div className="switch">
                                 <label htmlFor="show-tasks">Show Tasks?</label>
                                 <input className="switch-input" id="show-tasks" type="checkbox" name="showTasks" />
@@ -194,13 +239,6 @@ class Settings extends React.Component<
                                     <span className="switch-inactive" aria-hidden="true">No</span>
                                 </label>
                             </div>
-
-                            <a
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                href="https://github.com/ChrisMeeusen/azure-devops-work-items#remeberWI"
-                            >What's this?</a>
-
                         </div>
 
                         <div className="control-group">
@@ -212,11 +250,6 @@ class Settings extends React.Component<
                                     <span className="switch-inactive" aria-hidden="true">No</span>
                                 </label>
                             </div>
-                            <a
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                href="https://github.com/ChrisMeeusen/azure-devops-work-items#remember-work-items"
-                            >What's this?</a>
                         </div>
                     </div>
 

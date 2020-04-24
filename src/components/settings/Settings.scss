@@ -64,8 +64,8 @@ label {
 .toggle-row {
     height: 5.5em;
 
-    .control-group &:not(:nth-child(1)){
-        margin-left: 1em;
+    .control-group:not(:first-child){
+        margin-left: 3em;
     }
 }
 
@@ -78,5 +78,10 @@ label {
 
 fieldset.fieldset {
     padding: .5em;
+    font-size:0.875rem;
+    font-weight: 600;
+    a{
+      font-weight: initial;
+    }
 }
 

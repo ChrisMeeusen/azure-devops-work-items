@@ -20,5 +20,10 @@ export enum SettingMode {
 
 export interface SettingsComponentState {
     settings: SettingsViewModel,
-    showToken: boolean
+    showToken: boolean,
+    inclUserRequest: boolean,
+    inclSupportRequest: boolean,
+    inclBugs: boolean,
+    showTasks: boolean,
+    rememberSelectedWorkItems: boolean
 }

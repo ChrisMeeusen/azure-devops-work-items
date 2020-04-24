@@ -5,5 +5,10 @@
   "organization": "MockOrg-updated-and-such",
   "team": "MockTeam",
   "project": "MockProject-updated",
-  "filePath": "C:\\github\\azure-devops-browse\\config\\repo-mock.json"
+  "filePath": "C:\\github\\azure-devops-browse\\config\\repo-mock.json",
+  "workItemTypesToQuery": [
+    "Bug",
+    "Support Request",
+    "User Request"
+  ]
 }
