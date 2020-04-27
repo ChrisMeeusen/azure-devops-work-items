@@ -64,7 +64,7 @@ function createWindow () {
                     readFileToPromise(rFile)
                     .then( data => {
                         const obj =JSON.parse(data);
-                        obj.filePath = dFile;
+                        obj.filePath = rFile;
                         obj.mode = 'Repo';
                         return obj;
                     })
