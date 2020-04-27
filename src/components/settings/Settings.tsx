@@ -29,8 +29,10 @@ class Settings extends React.Component<
             inclBugs: settings.workItemTypesToQuery?.some(wi => wi === WorkItemType.BUG) ?? true,
             inclSupportRequest: settings.workItemTypesToQuery?.some(wi => wi === WorkItemType.SUPPORT_REQUEST) ?? true,
             inclUserRequest: settings.workItemTypesToQuery?.some(wi => wi === WorkItemType.USER_REQUEST) ?? true
-        };
+        } as SettingsComponentState;
 
+        this.toggleShowTasks = this.toggleShowTasks.bind(this);
+        this.toggleWorkItems = this.toggleWorkItems.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleWorkItemTypeChange = this.handleWorkItemTypeChange.bind(this);
@@ -46,6 +48,18 @@ class Settings extends React.Component<
 
     showToken(settings: SettingsViewModel){
         return !settings?.personalAccessToken;
+    }
+
+    toggleShowTasks() {
+        this.setState( prevState => ({
+            showTasks:!prevState.showTasks
+        }));
+    }
+
+    toggleWorkItems() {
+       this.setState(prevState => ({
+           rememberSelectedWorkItems: !prevState.rememberSelectedWorkItems
+       }));
     }
 
     handleInputChange(event: any) {
@@ -233,7 +247,12 @@ class Settings extends React.Component<
                         <div className="control-group">
                             <div className="switch">
                                 <label htmlFor="show-tasks">Show Tasks?</label>
-                                <input className="switch-input" id="show-tasks" type="checkbox" name="showTasks" />
+                                <input checked={this.state.showTasks}
+                                       onChange={this.toggleShowTasks}
+                                       className="switch-input"
+                                       id="show-tasks"
+                                       type="checkbox"
+                                       name="showTasks"/>
                                 <label className="switch-paddle" htmlFor="show-tasks" >
                                     <span className="switch-active" aria-hidden="true">Yes</span>
                                     <span className="switch-inactive" aria-hidden="true">No</span>
@@ -244,7 +263,12 @@ class Settings extends React.Component<
                         <div className="control-group">
                             <div className="switch">
                                 <label htmlFor="sticky-work-items">Remember Selected Work Items?</label>
-                                <input className="switch-input" id="sticky-work-items" type="checkbox" name="rememberWorkItems" />
+                                <input checked={this.state.rememberSelectedWorkItems}
+                                       onChange={this.toggleWorkItems}
+                                       className="switch-input"
+                                       id="sticky-work-items"
+                                       type="checkbox"
+                                       name="rememberWorkItems" />
                                 <label className="switch-paddle" htmlFor="sticky-work-items" >
                                     <span className="switch-active" aria-hidden="true">Yes</span>
                                     <span className="switch-inactive" aria-hidden="true">No</span>
