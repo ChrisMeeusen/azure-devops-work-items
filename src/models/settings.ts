@@ -8,9 +8,6 @@ export class SettingsViewModel {
     organization?: string;
     team?: string;
     project?: string;
-    showTasks?: boolean;
-    workItemTypesToQuery: WorkItemType[];
-    hasBeenLoaded: boolean;
 }
 
 export enum SettingMode {
@@ -18,12 +15,13 @@ export enum SettingMode {
     Default = 'Default'
 }
 
+/*
 export interface SettingsComponentState {
     settings: SettingsViewModel,
     showToken: boolean,
-    inclUserRequest: boolean,
-    inclSupportRequest: boolean,
-    inclBugs: boolean,
-    showTasks: boolean,
     rememberSelectedWorkItems: boolean
+}*/
+
+export class SettingsComponentState extends SettingsViewModel {
+    showToken: boolean
 }

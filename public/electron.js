@@ -22,12 +22,10 @@ const createSettings = (filePath, mode) => {
         mode: mode,
         filePath: filePath,
         personalAccessToken: '',
-        rememberWorkItems: '',
+        rememberWorkItems: false,
         organization: '',
         team: '',
         project: '',
-        showTasks: false,
-        workItemTypesToQuery: [],
         hasBeenLoaded: false
     };
 };
@@ -76,7 +74,6 @@ function createWindow () {
         }
     });
 
-    //const readDefault = readFileToPromise(dFile);
     const readDefault = new Promise((resolve, reject) => {
         try {
             if(fs.existsSync(dFile)) {
