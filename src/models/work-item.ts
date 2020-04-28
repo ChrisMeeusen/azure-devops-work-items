@@ -2,11 +2,15 @@ export class WorkItem {
     id: string;
     name: string;
     description: string;
-    type: WorkItemType;
+    type: string;
+    status: string;
+    assignedTo: string;
+    tasks: Task[];
 }
 
-export enum WorkItemType {
-    BUG = 'Bug',
-    SUPPORT_REQUEST = 'Support Request',
-    USER_REQUEST = 'User Request'
+export class Task {
+    id: string;
+    assignedTo: string;
+    status: string;
+    name: string;
 }

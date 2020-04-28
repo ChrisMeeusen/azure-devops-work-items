@@ -1,3 +1,10 @@
+
+
+export class ADOApiRequest {
+    security: ADOSecurityContext;
+}
+
+
 export interface Column {
     referenceName: string;
     name: string;
@@ -40,8 +47,15 @@ export interface WorkItemQueryResponse {
     workItemRelations: WorkItemRelation[];
 }
 
-export interface WorkItemQueryRequest {
+export class WorkItemQueryRequest extends  ADOApiRequest {
     query: string;
+}
+
+export interface ADOSecurityContext {
+    personalAccessToken: string;
+    organization: string;
+    project: string;
+    team: string;
 }
 
 // TODO here starts Work Item
@@ -149,3 +163,8 @@ export interface GetWorkItemResponse {
     _links: Links3;
     url: string;
 }
+
+export class GetWorkItemRequest extends ADOApiRequest{
+  id: number;
+}
+
