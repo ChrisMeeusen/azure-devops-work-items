@@ -3,23 +3,23 @@ import './Settings.scss';
 import {SettingMode, SettingsComponentState, SettingsViewModel} from "../../models/settings";
 import {AdoState} from "../../redux/reducer";
 import {connect} from "react-redux";
-import {saveSettings} from "../../services/config-service";
 import {saveDefaultSettings, saveRepoSettings} from "../../redux/actions";
 
 class Settings extends React.Component<
     {   mode: SettingMode | undefined,
         repoSettings: SettingsViewModel | undefined,
         defaultSettings: SettingsViewModel | undefined,
-        dispatch: any
+        dispatch: any,
+        saveSettings( settings: SettingsViewModel): void
     }
         , SettingsComponentState> {
 
     constructor(props: any) {
         super(props);
 
+        // default the state from props
         const settings = this.getSettingsFromProps();
         const showToken = this.showToken(settings);
-
         this.state = {
             mode: settings.mode,
             filePath: settings.filePath,
@@ -29,7 +29,7 @@ class Settings extends React.Component<
             team: settings.team,
             project: settings.project,
             showToken: showToken
-        } as unknown as SettingsComponentState;
+        } as SettingsComponentState;
 
         this.toggleWorkItems = this.toggleWorkItems.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
@@ -92,7 +92,7 @@ class Settings extends React.Component<
 
     formSubmit = () => {
         try{
-            saveSettings(this.state);
+            this.props.saveSettings(this.state);
 
             this.state.mode === SettingMode.Default
                 ? this.props.dispatch(saveDefaultSettings(this.state))

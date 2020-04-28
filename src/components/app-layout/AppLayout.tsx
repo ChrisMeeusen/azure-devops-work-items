@@ -5,6 +5,7 @@ import Menu from "../menu/Menu";
 import WorkItems from "../work-items/Work-items";
 import Settings from "../settings/Settings";
 import {SettingMode} from "../../models/settings";
+import {saveSettings} from "../../services/config-service";
 
 
 const AppLayout = () => {
@@ -26,12 +27,16 @@ const AppLayout = () => {
                         <Route
                             key="2"
                             path="/settings/repo">
-                            <Settings mode={SettingMode.Repo}/>
+                            <Settings
+                                mode={SettingMode.Repo}
+                                saveSettings={saveSettings}/>
                         </Route>
                         <Route
                             key="3"
                             path="/settings/default">
-                            <Settings mode={SettingMode.Default}/>
+                            <Settings
+                                mode={SettingMode.Default}
+                                saveSettings={saveSettings}/>
                         </Route>
                         <Redirect to="/work-items"></Redirect>
                     </Switch>
