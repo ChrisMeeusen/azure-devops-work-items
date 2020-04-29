@@ -6,6 +6,7 @@ import WorkItems from "../work-items/Work-items";
 import Settings from "../settings/Settings";
 import {SettingMode} from "../../models/settings";
 import {saveSettings} from "../../services/config-service";
+import {getADOWorkItems} from "../../services/ado-service";
 
 
 const AppLayout = () => {
@@ -22,7 +23,7 @@ const AppLayout = () => {
                         <Route
                             key="1"
                             path="/work-items">
-                            <WorkItems />
+                            <WorkItems getWorkItems={getADOWorkItems}/>
                         </Route>
                         <Route
                             key="2"

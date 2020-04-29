@@ -8,13 +8,6 @@ import {
     SAVE_REPO_SETTINGS
 } from "./actions";
 
-export interface AdoState {
-    error?: any,
-    workItems?: WorkItem[] | null,
-    repoSettings?: SettingsViewModel | null,
-    defaultSettings?: SettingsViewModel | null
-}
-
 export const emptyRS = {
     personalAccessToken:'',
     filePath:'',
@@ -36,6 +29,13 @@ export const emptyDS = {
     hasBeenLoaded: false,
     mode: SettingMode.Default
 } as SettingsViewModel;
+
+export interface AdoState {
+    error?: any,
+    workItems?: WorkItem[] | null,
+    repoSettings?: SettingsViewModel | null,
+    defaultSettings?: SettingsViewModel | null
+}
 
 export const initialState : AdoState = {
     error: '',

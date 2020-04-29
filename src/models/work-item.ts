@@ -1,16 +1,22 @@
 export class WorkItem {
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-    status: string;
-    assignedTo: string;
-    tasks: Task[];
+    id?: number;
+    name?: string;
+    description?: string;
+    type?: string;
+    status?: string;
+    assignedTo?: AssignedTo;
+    tasks?: Task[];
 }
 
 export class Task {
-    id: string;
-    assignedTo: string;
-    status: string;
-    name: string;
+    id?: number;
+    status?: string;
+    name?: string;
+    assignedTo?: AssignedTo;
+    description?: string;
+}
+
+export class AssignedTo {
+    displayName?: string;
+    pictureUrl?: string;
 }
