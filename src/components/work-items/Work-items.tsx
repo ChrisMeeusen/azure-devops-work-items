@@ -16,6 +16,7 @@ class WorkItems extends React.Component<
         settingsLoaded: boolean,
         getWorkItems(adoSecurity: ADOSecurityContext): Promise<WorkItem[]>,
         dispatch: any,
+        workItems: WorkItem[]
     }, WorkItemComponentState>{
 
     constructor(props: any) {
@@ -23,8 +24,11 @@ class WorkItems extends React.Component<
         this.state = {
             hasNeededSettings: false,
             workItems: [],
-            isCallingApi: false
+            isCallingApi: false,
+            openWorkItems:[],
         } as WorkItemComponentState;
+
+        this.toggleWi = this.toggleWi.bind(this);
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
@@ -56,6 +60,13 @@ class WorkItems extends React.Component<
             });
     }
 
+    componentWillReceiveProps(nextProps: any , nextContext: any): void {
+        this.setState(prevState => ({
+            workItems: nextProps.workItems,
+            openWorkItems: nextProps.workItems.map((wi: WorkItem) => false)
+        }));
+    }
+
     toastTheError(error:any) {
         switch (error?.status) {
             case 404:
@@ -77,11 +88,49 @@ class WorkItems extends React.Component<
         }
     }
 
+    toggleWi(index: number) {
+        const wiArr = this.state.openWorkItems;
+        wiArr[index]= !wiArr[index];
+        this.setState(prevState => ({
+            openWorkItems: wiArr
+        }));
+    }
+
     render(): React.ReactNode {
         return(
             <div className="work-items">
                 <h5>Work Items</h5>
                 {this.state.isCallingApi ? <Loader message={"Fetching WorkItems"}></Loader> :""}
+
+                {!this.state.isCallingApi ?
+                    <div className="table-container">
+                        <ul>
+                            {this.state.workItems.map((wi: WorkItem, index: number) =>
+                                <span
+                                    key={wi.id}
+                                    className={ this.state.openWorkItems[index] ? "accordion open" : "accordion"}>
+                                    <li
+                                        onClick={() => this.toggleWi(index)}>
+                                        <div className="wi-header">
+                                            <span>{wi.name}</span>
+                                            <span>{wi.type}</span>
+                                            <span>{wi.status}</span>
+                                        </div>
+
+                                    </li>
+                                    <div className="wi-details">
+                                        <div className="detail-row">
+                                            <div><span className="lbl">Id:</span> {wi.id}</div>
+                                            {wi.description ? <div className="description"><span className="lbl">Description:</span> <span dangerouslySetInnerHTML={{__html: wi.description ?? ""}}></span></div>: ""}
+                                            {wi.assignedTo?.displayName ? <div><span className="lbl">Assigned To:</span><img src={wi?.assignedTo?.pictureUrl}/> {wi.assignedTo?.displayName}</div>: ""}
+                                        </div>
+                                    </div>
+                                </span>
+                                )}
+                        </ul>
+                    </div>
+                    :""
+                }
             </div>
         );
     }
@@ -90,7 +139,8 @@ class WorkItems extends React.Component<
 const select = (appState: AdoState) => {
     return {
         adoSecurity: getADOSecurityContext(appState),
-        settingsLoaded: appState.bothSettingsLoaded
+        settingsLoaded: appState.bothSettingsLoaded,
+        workItems: appState.workItems
     };
 };
 

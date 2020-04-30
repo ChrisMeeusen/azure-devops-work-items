@@ -25,5 +25,5 @@ export interface WorkItemComponentState {
     workItems: WorkItem[];
     hasNeededSettings: boolean;
     isCallingApi: boolean;
-
+    openWorkItems: boolean[];
 }

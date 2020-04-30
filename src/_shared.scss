@@ -11,3 +11,31 @@
   -webkit-animation: fadeEffect .5s;
   animation: fadeEffect .5s; /* Fading effect takes 1 second */
 }
+
+
+@mixin fade-in-from-left() {
+
+  @-webkit-keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  -webkit-animation: fadeInLeft .5s;
+  animation: fadeInLeft .5s;
+}
