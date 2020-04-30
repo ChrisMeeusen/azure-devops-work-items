@@ -94,9 +94,15 @@ class Settings extends React.Component<
         try{
             this.props.saveSettings(this.state);
 
+         /*   this.setState(prevState =>({
+                hasBeenLoaded: true
+            }));*/
+
+            const settings = {...this.state};
+            settings.hasBeenLoaded=true;
             this.state.mode === SettingMode.Default
-                ? this.props.dispatch(saveDefaultSettings(this.state))
-                : this.props.dispatch(saveRepoSettings(this.state));
+                ? this.props.dispatch(saveDefaultSettings(settings))
+                : this.props.dispatch(saveRepoSettings(settings));
 
         } catch (e) {
             console.log(e);

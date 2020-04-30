@@ -18,6 +18,9 @@ const App = (props: any) => {
     const repoSettings = args[0] as SettingsViewModel;
     const defaultSettings = args[1] as SettingsViewModel;
 
+    repoSettings.hasBeenLoaded=true;
+    defaultSettings.hasBeenLoaded=true;
+
     props.dispatch(saveRepoSettings(repoSettings));
     props.dispatch(saveDefaultSettings(defaultSettings));
   });

@@ -20,3 +20,10 @@ export class AssignedTo {
     displayName?: string;
     pictureUrl?: string;
 }
+
+export interface WorkItemComponentState {
+    workItems: WorkItem[];
+    hasNeededSettings: boolean;
+    isCallingApi: boolean;
+
+}

@@ -35,21 +35,23 @@ export interface AdoState {
     workItems?: WorkItem[] | null,
     repoSettings?: SettingsViewModel | null,
     defaultSettings?: SettingsViewModel | null
+    bothSettingsLoaded: boolean
 }
 
 export const initialState : AdoState = {
     error: '',
     workItems: [] as WorkItem[],
     repoSettings: emptyRS,
-    defaultSettings: emptyDS
+    defaultSettings: emptyDS,
+    bothSettingsLoaded: false
 }
 
 export const adoReducer = (state: AdoState = initialState, action: any) => {
     switch(action.type) {
         case SAVE_REPO_SETTINGS:
-            return {...state, repoSettings: action.settings};
+            return {...state, repoSettings: action.settings, bothSettingsLoaded: (state.defaultSettings?.hasBeenLoaded && action?.settings?.hasBeenLoaded)};
         case SAVE_DEFAULT_SETTINGS:
-            return {...state, defaultSettings: action.settings};
+            return {...state, defaultSettings: action.settings, bothSettingsLoaded: (state.repoSettings?.hasBeenLoaded && action?.settings?.hasBeenLoaded)};
         case GET_WORK_ITEMS:
             return state;
         case GET_WORK_ITEMS_SUCCESS:

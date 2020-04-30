@@ -7,6 +7,7 @@ export class SettingsViewModel {
     organization?: string;
     team?: string;
     project?: string;
+    hasBeenLoaded?:boolean;
 }
 
 export enum SettingMode {

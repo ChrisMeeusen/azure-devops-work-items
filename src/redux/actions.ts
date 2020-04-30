@@ -1,5 +1,6 @@
 import {SettingsViewModel} from "../models/settings";
 import {WorkItem} from "../models/work-item";
+import {ADOSecurityContext} from "../models/ado-api";
 
 export const SAVE_REPO_SETTINGS = 'SAVE_REPO_SETTINGS';
 export const SAVE_DEFAULT_SETTINGS = 'SAVE_DEFAULT_SETTINGS'
@@ -17,8 +18,8 @@ export const saveDefaultSettings = (settings: SettingsViewModel) => {
     return { type: SAVE_DEFAULT_SETTINGS, settings }
 }
 
-export const getWorkItems = (settings: SettingsViewModel) => {
-    return { type: GET_WORK_ITEMS, settings }
+export const getWorkItems = (securityContext: ADOSecurityContext) => {
+    return { type: GET_WORK_ITEMS, securityContext }
 }
 
 export const getWorkItemsSuccess = (workItems: WorkItem[]) => {
