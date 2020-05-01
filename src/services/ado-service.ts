@@ -15,14 +15,14 @@ export const getADOWorkItems = async (adoSecurity: ADOSecurityContext): Promise<
     const wiQuery = getWorkItemQuery(adoSecurity);
     const wiUrl = `https://dev.azure.com/${adoSecurity.organization}/${adoSecurity.project}/${adoSecurity.team}/_apis/wit/wiql?api-version=5.1`;
     const wiFetchResponse = await fetch( wiUrl,{ method:'POST', headers: new Headers(headers), body: JSON.stringify(wiQuery) });
-    if(!wiFetchResponse.ok) {throw wiFetchResponse}
+    if(!wiFetchResponse.ok || wiFetchResponse.status === 203) {throw wiFetchResponse}
     const wiResponse = (await wiFetchResponse.json()) as WorkItemQueryResponse;
 
     const queryIds = getUniqueIds(wiResponse);
     const batchItemRequest = getBatchWorkItemsRequest(queryIds);
     const wiBatchUrl = `https://dev.azure.com/${adoSecurity.organization}/${adoSecurity.project}/_apis/wit/workitemsbatch/?api-version=5.1`;
     const wiBatchFetchResponse = await fetch( wiBatchUrl,{ method:'POST', headers: new Headers(headers), body: JSON.stringify(batchItemRequest) });
-    if(!wiBatchFetchResponse.ok) {throw wiBatchFetchResponse}
+    if(!wiBatchFetchResponse.ok || wiFetchResponse.status === 203) {throw wiBatchFetchResponse}
     const wiBatchResponse = (await wiBatchFetchResponse.json()) as GetBatchWorkItemsResponse;
 
     const workItems = mergeApiResponses(wiResponse, wiBatchResponse);

@@ -26,22 +26,11 @@ ul {
 
     &:hover{
       box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.18);
+      cursor: pointer;
     }
   }
 
   span.accordion {
-
-
-    /*:before {
-      background: #0070cc;
-      content: "";
-      height: 80%;
-      top: 10%;
-      left: -2px;
-      width: 4px;
-      position: absolute;
-      border-radius: 2px;
-    }*/
 
     div.wi-details {
       background: white;
@@ -54,6 +43,7 @@ ul {
       }
       img {
         border-radius: 50%;
+        margin-left: .5em;
       }
     }
 
@@ -61,11 +51,14 @@ ul {
       div.wi-details {
         box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06);
         padding: 1em 1em 1em 1.5em;
-        @include fade-in-from-left();
+        @include fade-in-from-top();
         height: fit-content;
         margin: .08em .25em 1em;
 
-
+        * {
+          @include fade-in-from-left();
+        }
+        
         div.detail-row {
           display: flex;
           height: 44px;
@@ -74,8 +67,7 @@ ul {
             margin-left: 2em;
           }
           div{
-            display: flex;
-            height:100%;
+
           }
         }
 
@@ -88,5 +80,28 @@ ul {
 
       }
     }
+
+    &.open {
+      div.wi-header {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    }
   }
 }
+
+div.wi-header {
+  svg {
+    margin-left: auto;
+    height: 22px;
+    width: 22px;
+  }
+}
+
+.assigned-to {
+  margin-left: auto;
+  display:flex;
+}
+
+

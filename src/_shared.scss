@@ -39,3 +39,33 @@
   -webkit-animation: fadeInLeft .5s;
   animation: fadeInLeft .5s;
 }
+
+
+@mixin fade-in-from-top() {
+
+  @-webkit-keyframes fadeInTop {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInTop {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  -webkit-animation: fadeInTop 246ms;
+  animation: fadeInTop 246ms;
+}
+
+
