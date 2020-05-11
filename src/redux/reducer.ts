@@ -5,7 +5,7 @@ import {
     GET_WORK_ITEMS_ERROR,
     GET_WORK_ITEMS_SUCCESS,
     SAVE_DEFAULT_SETTINGS,
-    SAVE_REPO_SETTINGS
+    SAVE_REPO_SETTINGS, SELECT_WORK_ITEM
 } from "./actions";
 
 export const emptyRS = {
@@ -35,7 +35,8 @@ export interface AdoState {
     workItems?: WorkItem[] | null,
     repoSettings?: SettingsViewModel | null,
     defaultSettings?: SettingsViewModel | null
-    bothSettingsLoaded: boolean
+    bothSettingsLoaded: boolean,
+    selectedWorkItemIds: any[]
 }
 
 export const initialState : AdoState = {
@@ -43,7 +44,8 @@ export const initialState : AdoState = {
     workItems: [] as WorkItem[],
     repoSettings: emptyRS,
     defaultSettings: emptyDS,
-    bothSettingsLoaded: false
+    bothSettingsLoaded: false,
+    selectedWorkItemIds:[]
 }
 
 export const adoReducer = (state: AdoState = initialState, action: any) => {
@@ -68,8 +70,12 @@ export const adoReducer = (state: AdoState = initialState, action: any) => {
             return {...state, workItems: action.workItems};
         case GET_WORK_ITEMS_ERROR:
             return {...state, error: action.error};
+        case SELECT_WORK_ITEM:
+            return {...state, selectedWorkItemIds: addOrRemove(state.selectedWorkItemIds, action.workItemId)}
         default:
             return state;
 
     }
 }
+
+const addOrRemove = (arr: any [], item: any) => arr.includes(item) ? arr.filter(i => i !== item) : [ ...arr, item ];

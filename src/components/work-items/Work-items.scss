@@ -11,7 +11,7 @@ ul {
   margin-right:1em;
 
 
-  li {
+  li.wi-list {
     padding: .75em;
     box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06);
     margin-left:.25em;
@@ -21,7 +21,15 @@ ul {
 
     div.wi-header {
       display: grid;
-      grid-template-columns: auto auto auto auto;
+      grid-template-columns: 18em 10em 10em auto;
+
+      span {
+        display: inline-flex;
+        align-items: center;
+        input {
+          margin: 0;
+        }
+      }
     }
 
     &:hover{
@@ -62,15 +70,18 @@ ul {
         div.detail-row {
           display: flex;
           height: 44px;
+          margin-bottom: .75em;
 
           div:not(:first-child){
             margin-left: 2em;
           }
-          div{
 
-          }
         }
 
+        div.detail-content{
+          border-top: 3px solid $light-gray;
+          padding-top: .5em;
+        }
 
         div.description {
           * {
@@ -102,6 +113,18 @@ div.wi-header {
 .assigned-to {
   margin-left: auto;
   display:flex;
+}
+
+input {
+  cursor: pointer;
+}
+
+td, th {
+  padding: .75em;
+  input {
+    margin:0 !important;
+  }
+  cursor: pointer;
 }
 
 

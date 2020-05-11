@@ -4,9 +4,9 @@ import './Work-items.scss';
 import {AdoState} from "../../redux/reducer";
 import {ADOSecurityContext} from "../../models/ado-api";
 import {getADOSecurityContext, hasRequiredSettings} from "../../redux/selectors";
-import {AssignedTo, WorkItem, WorkItemComponentState} from "../../models/work-item";
+import {AssignedTo, Task, WorkItem, WorkItemComponentState} from "../../models/work-item";
 import Loader from "../loading/Loader";
-import {getWorkItems, getWorkItemsError, getWorkItemsSuccess} from "../../redux/actions";
+import {getWorkItems, getWorkItemsError, getWorkItemsSuccess, selectWorkItem} from "../../redux/actions";
 import toastr from "toastr";
 
 
@@ -16,7 +16,8 @@ class WorkItems extends React.Component<
         settingsLoaded: boolean,
         getWorkItems(adoSecurity: ADOSecurityContext): Promise<WorkItem[]>,
         dispatch: any,
-        workItems: WorkItem[]
+        workItems: WorkItem[],
+        selectWorkItems: any[]
     }, WorkItemComponentState>{
 
     constructor(props: any) {
@@ -26,9 +27,12 @@ class WorkItems extends React.Component<
             workItems: [],
             isCallingApi: false,
             openWorkItems:[],
+            selectedWorkItems:[]
         } as WorkItemComponentState;
 
         this.toggleWi = this.toggleWi.bind(this);
+        this.toggleWorkItemSelected = this.toggleWorkItemSelected.bind(this);
+        this.workItemIsChecked = this.workItemIsChecked.bind(this);
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
@@ -63,7 +67,8 @@ class WorkItems extends React.Component<
     componentWillReceiveProps(nextProps: any , nextContext: any): void {
         this.setState(prevState => ({
             workItems: nextProps.workItems,
-            openWorkItems: nextProps.workItems.map((wi: WorkItem) => false)
+            openWorkItems: this.state.openWorkItems,
+            selectedWorkItems: nextProps.selectWorkItems
         }));
     }
 
@@ -99,6 +104,16 @@ class WorkItems extends React.Component<
         }));
     }
 
+    toggleWorkItemSelected(event: any, workItemId: any ) {
+        event?.preventDefault();
+        event?.stopPropagation();
+        this.props.dispatch(selectWorkItem(workItemId));
+    }
+
+    workItemIsChecked = (id: any): boolean => {
+        return this.state.selectedWorkItems.some( wi => wi === id);
+    }
+
     render(): React.ReactNode {
         return(
             <div className="work-items">
@@ -112,20 +127,28 @@ class WorkItems extends React.Component<
                                 <span
                                     key={wi.id}
                                     className={ this.state.openWorkItems[index] ? "accordion open" : "accordion"}>
-                                    <li
+                                    <li className="wi-list"
                                         onClick={() => this.toggleWi(index)}>
                                         <div className="wi-header">
-                                            <span>{wi.name}</span>
+                                            <span>
+                                                <input
+                                                    id={"work-item-"+ wi.id}
+                                                    onChange={event => this.toggleWorkItemSelected(event, wi.id)}
+                                                    checked={this.workItemIsChecked(wi.id)}
+                                                    type="checkbox"/>
+                                                <label
+                                                    onClickCapture={event => this.toggleWorkItemSelected(event, wi.id)}
+                                                    htmlFor={"task-"+ index} onClick={event => event.stopPropagation()}>{wi.name}</label>
+                                            </span>
                                             <span>{wi.type}</span>
                                             <span>{wi.status}</span>
-
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                              <title>chevron-down</title>
-                                              <polygon points="16 24.41 1.29 9.71 2.71 8.29 16 21.59 29.29 8.29 30.71 9.71 16 24.41"></polygon>
-                                            </svg>
-
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                  <title>chevron-down</title>
+                                                  <polygon points="16 24.41 1.29 9.71 2.71 8.29 16 21.59 29.29 8.29 30.71 9.71 16 24.41"></polygon>
+                                                </svg>
+                                            </span>
                                         </div>
-
                                     </li>
                                     <div className="wi-details">
                                         <div className="detail-row">
@@ -135,10 +158,47 @@ class WorkItems extends React.Component<
                                         </div>
 
                                         <div className="detail-content">
-                                            <h6>Tasks</h6>
-                                            <ul>
-
-                                            </ul>
+                                            {
+                                                wi?.tasks &&
+                                                wi?.tasks?.length > 0 ?
+                                                <span>
+                                                    <h5>Tasks</h5>
+                                                    <table
+                                                        className="hover"
+                                                        id={"tasks-table-"+index}>
+                                                    <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Id</th>
+                                                        <th>Name</th>
+                                                        <th>Description</th>
+                                                        <th>Status</th>
+                                                        <th>Assigned To</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {wi.tasks?.map((task: Task, i: number) =>
+                                                        <tr
+                                                            key={"task-id-"+i}>
+                                                            <td>
+                                                                <input
+                                                                    id={wi.id+"-"+i}
+                                                                    onChange={event => this.toggleWorkItemSelected(null, task.id)}
+                                                                    checked={this.workItemIsChecked(task.id)}
+                                                                    type="checkbox"/>
+                                                            </td>
+                                                            <td onClick={ event => this.toggleWorkItemSelected(event, task.id)}>{task.id}</td>
+                                                            <td onClick={ event => this.toggleWorkItemSelected(event, task.id)}>{task.name}</td>
+                                                            <td onClick={ event => this.toggleWorkItemSelected(event, task.id)} dangerouslySetInnerHTML={{__html: task.description ??""}}></td>
+                                                            <td onClick={ event => this.toggleWorkItemSelected(event, task.id)}>{task.status}</td>
+                                                            <td onClick={ event => this.toggleWorkItemSelected(event, task.id)}>{task.assignedTo?.displayName}</td>
+                                                        </tr>)
+                                                    }
+                                                    </tbody>
+                                                </table>
+                                                </span>
+                                                 : <h5>No Tasks</h5>
+                                            }
                                         </div>
                                     </div>
                                 </span>
@@ -160,11 +220,14 @@ const assignedToRender = (assignedTo: AssignedTo): React.ReactNode => (
 );
 
 
+
+
 const select = (appState: AdoState) => {
     return {
         adoSecurity: getADOSecurityContext(appState),
         settingsLoaded: appState.bothSettingsLoaded,
-        workItems: appState.workItems
+        workItems: appState.workItems,
+        selectWorkItems: appState.selectedWorkItemIds
     };
 };
 

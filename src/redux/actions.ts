@@ -9,6 +9,7 @@ export const GET_WORK_ITEMS = 'GET_WORK_ITEMS';
 export const GET_WORK_ITEMS_SUCCESS = 'GET_WORK_ITEMS_SUCCESS';
 export const GET_WORK_ITEMS_ERROR = 'GET_WORK_ITEMS_ERROR';
 
+export const SELECT_WORK_ITEM = 'SELECT_WORK_ITEM';
 
 export const saveRepoSettings = (settings : SettingsViewModel) => {
     return { type: SAVE_REPO_SETTINGS, settings }
@@ -28,4 +29,8 @@ export const getWorkItemsSuccess = (workItems: WorkItem[]) => {
 
 export const getWorkItemsError = (error: any) => {
     return { type: GET_WORK_ITEMS_ERROR, error }
+}
+
+export const selectWorkItem = (workItemId: any) => {
+    return {type: SELECT_WORK_ITEM, workItemId}
 }
