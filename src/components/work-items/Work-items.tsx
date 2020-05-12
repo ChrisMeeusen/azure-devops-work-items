@@ -8,6 +8,8 @@ import {AssignedTo, Task, WorkItem, WorkItemComponentState} from "../../models/w
 import Loader from "../loading/Loader";
 import {getWorkItems, getWorkItemsError, getWorkItemsSuccess, selectWorkItem} from "../../redux/actions";
 import toastr from "toastr";
+import {bug, supportRequest, userStory} from "../../models/icons";
+import {type} from "os";
 
 
 class WorkItems extends React.Component<
@@ -33,6 +35,10 @@ class WorkItems extends React.Component<
         this.toggleWi = this.toggleWi.bind(this);
         this.toggleWorkItemSelected = this.toggleWorkItemSelected.bind(this);
         this.workItemIsChecked = this.workItemIsChecked.bind(this);
+        this.renderSelectedTasks = this.renderSelectedTasks.bind(this);
+        this.renderWorkItemTypeIcon = this.renderWorkItemTypeIcon.bind(this);
+        this.filterWorkItems = this.filterWorkItems.bind(this);
+        this.renderSelectedWorkItems = this.renderSelectedWorkItems.bind(this);
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
@@ -114,14 +120,83 @@ class WorkItems extends React.Component<
         return this.state.selectedWorkItems.some( wi => wi === id);
     }
 
+    renderSelectedTasks = (wi: WorkItem): React.ReactNode => {
+        const selectedTasks = wi.tasks
+            ?.filter( s => this.state.selectedWorkItems.some(swi => swi === s.id))
+            ?.map(w => w.id);
+
+        return (selectedTasks && selectedTasks?.length > 0 ) ?
+            <span>
+            <span className="selected-tasks">
+                <b>{selectedTasks.length > 1 ? 'Tasks' : 'Task'}</b>: {selectedTasks.map( (value, index) => {
+                return index !== 0 ? `, ${value}`: value;
+            })}</span>
+            </span>
+            : <span></span>;
+    }
+
+    renderSelectedWorkItems = (): React.ReactNode => {
+        return (this.state.selectedWorkItems && this.state.selectedWorkItems.length > 0)
+            ? <span className="selected-tasks lg"><b>Selected Work Items</b>: {this.state.selectedWorkItems.map( (w, index) => index !== 0 ? `, ${w}`: w )}
+              </span>
+            : <span></span>;
+    }
+    renderWorkItemTypeIcon = (wi: WorkItem) => {
+         switch (wi.type) {
+             case "User Story":
+                 return (<span className="icon-user-story">{userStory()}</span>);
+             break;
+             case "Bug":
+                 return (<span className="icon-bug">{bug()}</span>);
+             break;
+             case "Support Request":
+                 return (<span className="icon-support-request">{supportRequest()}</span>);
+             break;
+         }
+    }
+
+    filterWorkItems = (filterText: string) => {
+        console.log(filterText);
+        const filteredItems = this.props.workItems.filter(wi => this.searchForValue(wi, filterText));
+
+        this.setState({
+            workItems:filteredItems
+        });
+    }
+
+    searchForValue = (obj: any, val: string): boolean => {
+        return Object.keys(obj).some(k => {
+
+            // if this is another object recurse
+            if(obj[k] && typeof obj[k]==='object')
+                return this.searchForValue(obj[k],val);
+
+            // search in arrays
+            if(obj[k] && Array.isArray(obj[k]))
+                return obj[k]
+                    .map((aObj: any) => this.searchForValue(aObj, val))
+                    .some((hasVal: boolean) => hasVal);
+
+            return obj[k]
+                && (obj[k].toString().toLowerCase().indexOf(val.toLowerCase()) > -1);
+        })
+    }
+
     render(): React.ReactNode {
         return(
             <div className="work-items">
-                <h5>Current Sprint Work Items</h5>
+                <h5 className="mb">Current Sprint Work Items</h5>
                 {this.state.isCallingApi ? <Loader message={"Fetching WorkItems"}></Loader> :""}
 
                 {!this.state.isCallingApi ?
                     <div className="table-container">
+                        <input
+                            onChange={ e => this.filterWorkItems(e.target.value) }
+                            className="search-input"
+                            type="search"
+                            placeholder="Search Work Items and Tasks"
+                            id="search-wi"/>
+                        {this.renderSelectedWorkItems()}
                         <ul>
                             {this.state.workItems.map((wi: WorkItem, index: number) =>
                                 <span
@@ -140,10 +215,11 @@ class WorkItems extends React.Component<
                                                     onClickCapture={event => this.toggleWorkItemSelected(event, wi.id)}
                                                     htmlFor={"task-"+ index} onClick={event => event.stopPropagation()}>{wi.name}</label>
                                             </span>
-                                            <span>{wi.type}</span>
+                                            <span className="wi-type">{this.renderWorkItemTypeIcon(wi)} {wi.type}</span>
                                             <span>{wi.status}</span>
+                                            {this.renderSelectedTasks(wi)}
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                <svg className="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                                   <title>chevron-down</title>
                                                   <polygon points="16 24.41 1.29 9.71 2.71 8.29 16 21.59 29.29 8.29 30.71 9.71 16 24.41"></polygon>
                                                 </svg>

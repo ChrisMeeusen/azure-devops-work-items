@@ -21,7 +21,7 @@ ul {
 
     div.wi-header {
       display: grid;
-      grid-template-columns: 18em 10em 10em auto;
+      grid-template-columns: 18em 10em 10em auto auto;
 
       span {
         display: inline-flex;
@@ -94,7 +94,7 @@ ul {
 
     &.open {
       div.wi-header {
-        svg {
+        svg.chevron {
           transform: rotate(180deg);
         }
       }
@@ -103,7 +103,7 @@ ul {
 }
 
 div.wi-header {
-  svg {
+  svg.chevron {
     margin-left: auto;
     height: 22px;
     width: 22px;
@@ -115,7 +115,7 @@ div.wi-header {
   display:flex;
 }
 
-input {
+input[type=checkbox] {
   cursor: pointer;
 }
 
@@ -127,4 +127,58 @@ td, th {
   cursor: pointer;
 }
 
+.tasks.callout.small {
+  margin:0;
+  padding:.25em;
+  height: 1.75em;
+  width: fit-content;
+}
 
+.selected-tasks{
+  border-radius: 4px;
+  border: 1px solid rgba(10, 10, 10, 0.25);
+  background-color: #d7ecfa;
+  color: #0a0a0a;
+  height: fit-content;
+  width: fit-content;
+  padding: .1em .2em;
+  font-size: .8em;
+}
+
+.icon-user-story, .icon-bug, .icon-support-request {
+  margin-right: .75em;
+  height: 30px;
+  width: 30px;
+  border-radius: 3px;
+
+  svg {
+    margin: 4px 4px;
+    height: 22px;
+    width: 22px;
+    fill: white;
+  }
+}
+
+.icon-user-story {
+  background: #14679e;
+}
+
+.icon-bug {
+  background: #cc2b3e;
+}
+
+.icon-support-request {
+  background: #42a15c;
+}
+
+.mb {
+  margin-bottom: 1.5em;
+}
+.search-input {
+  width: 61em;
+  margin-left:1.5em;
+}
+.selected-tasks.lg {
+  margin-left:2em;
+  padding:.5em;
+}

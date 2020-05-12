@@ -6,6 +6,7 @@ export class WorkItem {
     status?: string;
     assignedTo?: AssignedTo;
     tasks?: Task[];
+    [key: string]: any;
 }
 
 export class Task {
