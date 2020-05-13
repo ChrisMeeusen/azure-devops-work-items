@@ -3,14 +3,12 @@ import {connect} from "react-redux";
 import './Work-items.scss';
 import {AdoState} from "../../redux/reducer";
 import {ADOSecurityContext} from "../../models/ado-api";
-import {getADOSecurityContext, hasRequiredSettings} from "../../redux/selectors";
+import {getADOSecurityContext} from "../../redux/selectors";
 import {AssignedTo, Task, WorkItem, WorkItemComponentState} from "../../models/work-item";
 import Loader from "../loading/Loader";
 import {getWorkItems, getWorkItemsError, getWorkItemsSuccess, selectWorkItem} from "../../redux/actions";
 import toastr from "toastr";
 import {bug, supportRequest, userStory} from "../../models/icons";
-import {type} from "os";
-import {BrowserRouter as Router} from "react-router-dom";
 import {groupBy} from "../../utils/array-utils";
 
 
@@ -42,6 +40,7 @@ class WorkItems extends React.Component<
         this.renderWorkItemTypeIcon = this.renderWorkItemTypeIcon.bind(this);
         this.filterWorkItems = this.filterWorkItems.bind(this);
         this.renderSelectedWorkItems = this.renderSelectedWorkItems.bind(this);
+        this.onAppKeyUp = this.onAppKeyUp.bind(this);
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
@@ -104,6 +103,18 @@ class WorkItems extends React.Component<
         if(this.props.settingsLoaded) {
             this.getWorkItemsFromApi();
         }
+        document.addEventListener("keyup", this.onAppKeyUp, false);
+    }
+
+    componentWillUnmount(): void {
+        document.removeEventListener("keyup", this.onAppKeyUp, false);
+    }
+
+    onAppKeyUp = (event: any) => {
+
+        if(event.key ==='Enter'){
+            console.log('Enter key event listener in work items screen',event.key);
+        }
     }
 
     toggleWi(index: number) {
@@ -140,11 +151,10 @@ class WorkItems extends React.Component<
         const selectedItems  = this.state?.selectedWorkItems?.map(swi => this.props.workItems.find(wi => wi.id === swi) ?? {type: 'Task', id: swi});
         const groupedItems = groupBy('type')(selectedItems);
 
-        console.log(groupedItems);
         return (groupedItems && Object.keys(groupedItems).length > 0)
             ? <div className="selected-work-items-wrapper">
                 <div><b>Associating Commit To</b>:</div>
-                <div className="selected-work-items-group">{Object.keys(groupedItems).map((key: any) => <span ><span className="wi-type-lbl">{key}</span>: {
+                <div className="selected-work-items-group">{Object.keys(groupedItems).map((key: any) => <span key={key.toLowerCase()}><span className="wi-type-lbl">{key}</span>: {
                     groupedItems[key].map((wi: any, index: number) => index === 0 ? wi.id : `, ${wi.id}`)}</span>)}</div>
               </div>
             : "";
@@ -153,13 +163,10 @@ class WorkItems extends React.Component<
          switch (wi.type) {
              case "User Story":
                  return (<span className="icon-user-story">{userStory()}</span>);
-             break;
              case "Bug":
                  return (<span className="icon-bug">{bug()}</span>);
-             break;
              case "Support Request":
                  return (<span className="icon-support-request">{supportRequest()}</span>);
-             break;
          }
     }
 
@@ -307,7 +314,7 @@ class WorkItems extends React.Component<
 const assignedToRender = (assignedTo: AssignedTo): React.ReactNode => (
     <span className="assigned-to">
         <div><b>Assigned To:</b><br/>{assignedTo?.displayName}</div>
-        <img src={assignedTo?.pictureUrl}/>
+        <img alt={`${assignedTo.displayName} portrait`} src={assignedTo?.pictureUrl}/>
     </span>
 );
 

@@ -6,36 +6,60 @@ import AppLayout from "./components/app-layout/AppLayout";
 import {saveDefaultSettings, saveRepoSettings} from "./redux/actions";
 import {SettingsViewModel} from "./models/settings";
 import {connect} from "react-redux";
+import {render} from "react-dom";
 const ipc = window.require("electron").ipcRenderer;
 
-const App = (props: any) => {
+class App extends React.Component<any, any>{
+  constructor(props: any) {
+    super(props);
 
-  /**
-   * This is an event listener to receive the config data from the electron main process (public/electron.js).
-   */
-  ipc.on('conf-read', function(event :any, args: any){
+    /**
+     * This is an event listener to receive the config data from the electron main process (public/electron.js).
+     */
+    ipc.on('conf-read', function(event :any, args: any){
 
-    const repoSettings = args[0] as SettingsViewModel;
-    const defaultSettings = args[1] as SettingsViewModel;
+      const repoSettings = args[0] as SettingsViewModel;
+      const defaultSettings = args[1] as SettingsViewModel;
 
-    repoSettings.hasBeenLoaded=true;
-    defaultSettings.hasBeenLoaded=true;
+      repoSettings.hasBeenLoaded=true;
+      defaultSettings.hasBeenLoaded=true;
 
-    props.dispatch(saveRepoSettings(repoSettings));
-    props.dispatch(saveDefaultSettings(defaultSettings));
-  });
+      props.dispatch(saveRepoSettings(repoSettings));
+      props.dispatch(saveDefaultSettings(defaultSettings));
+    });
 
-  /**
-   * Tell electron that the react app is up and running and ready to receive the config data in the above
-   * event listener.
-   */
-  ipc.send('react-loaded', {});
+    /**
+     * Tell electron that the react app is up and running and ready to receive the config data in the above
+     * event listener.
+     */
+    ipc.send('react-loaded', {});
 
-  return (
-  <div className="app">
-    <AppLayout />
-  </div>
-  );
+    this.onAppKeyUp = this.onAppKeyUp.bind(this);
+  }
+
+  componentDidMount(): void {
+    document.addEventListener("keyup", this.onAppKeyUp, false);
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener("keyup", this.onAppKeyUp, false);
+  }
+
+  onAppKeyUp = (event: any) => {
+    if(event.key ==='Escape'){
+      console.log('App Component escape key listener', event.key);
+      //TODO shut down app here.
+    }
+  }
+
+  render() {
+    return (
+        <div className="app">
+          <AppLayout />
+        </div>
+    );
+  }
+
 }
 
 export default connect()(App);
