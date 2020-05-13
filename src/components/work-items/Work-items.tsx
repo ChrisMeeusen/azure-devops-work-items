@@ -6,7 +6,13 @@ import {ADOSecurityContext} from "../../models/ado-api";
 import {getADOSecurityContext} from "../../redux/selectors";
 import {AssignedTo, Task, WorkItem, WorkItemComponentState} from "../../models/work-item";
 import Loader from "../loading/Loader";
-import {getWorkItems, getWorkItemsError, getWorkItemsSuccess, selectWorkItem} from "../../redux/actions";
+import {
+    clearSelectedWorkItems,
+    getWorkItems,
+    getWorkItemsError,
+    getWorkItemsSuccess,
+    toggleWorkItemSelected
+} from "../../redux/actions";
 import toastr from "toastr";
 import {bug, supportRequest, userStory} from "../../models/icons";
 import {groupBy} from "../../utils/array-utils";
@@ -108,10 +114,10 @@ class WorkItems extends React.Component<
 
     componentWillUnmount(): void {
         document.removeEventListener("keyup", this.onAppKeyUp, false);
+        this.props.dispatch(clearSelectedWorkItems());
     }
 
     onAppKeyUp = (event: any) => {
-
         if(event.key ==='Enter'){
             console.log('Enter key event listener in work items screen',event.key);
         }
@@ -127,7 +133,7 @@ class WorkItems extends React.Component<
 
     toggleWorkItemSelected(event: any, workItemId: any ) {
         event?.stopPropagation();
-        this.props.dispatch(selectWorkItem(workItemId));
+        this.props.dispatch(toggleWorkItemSelected(workItemId));
     }
 
     workItemIsChecked = (id: any): boolean => {

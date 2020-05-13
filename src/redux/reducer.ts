@@ -1,11 +1,12 @@
 import {WorkItem} from "../models/work-item";
 import {SettingMode, SettingsViewModel} from "../models/settings";
 import {
+    CLEAR_SELECTED_WORK_ITEMS,
     GET_WORK_ITEMS,
     GET_WORK_ITEMS_ERROR,
     GET_WORK_ITEMS_SUCCESS,
     SAVE_DEFAULT_SETTINGS,
-    SAVE_REPO_SETTINGS, SELECT_WORK_ITEM
+    SAVE_REPO_SETTINGS, TOGGLE_SELECTED_WORK_ITEM
 } from "./actions";
 
 export const emptyRS = {
@@ -70,8 +71,10 @@ export const adoReducer = (state: AdoState = initialState, action: any) => {
             return {...state, workItems: action.workItems};
         case GET_WORK_ITEMS_ERROR:
             return {...state, error: action.error};
-        case SELECT_WORK_ITEM:
+        case TOGGLE_SELECTED_WORK_ITEM:
             return {...state, selectedWorkItemIds: addOrRemove(state.selectedWorkItemIds, action.workItemId)}
+        case CLEAR_SELECTED_WORK_ITEMS:
+            return {...state, selectedWorkItemIds:[]}
         default:
             return state;
 
