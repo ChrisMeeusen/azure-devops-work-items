@@ -43,9 +43,6 @@ const AppLayout = () => {
                     </Switch>
                 </div>
             </div>
-            <div className="footer">
-                
-            </div>
         </Router>
     );
 }

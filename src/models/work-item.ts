@@ -28,4 +28,5 @@ export interface WorkItemComponentState {
     isCallingApi: boolean;
     openWorkItems: boolean[];
     selectedWorkItems: any[];
+    searchText: string;
 }

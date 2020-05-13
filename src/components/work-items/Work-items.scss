@@ -182,3 +182,37 @@ td, th {
   margin-left:2em;
   padding:.5em;
 }
+
+.footer {
+  position: fixed;
+  bottom:0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  overflow: hidden;
+  z-index: 999;
+  padding: 1em;
+
+  display: flex;
+
+  -webkit-box-shadow: -6px 2px 6px 0 #222;
+  -moz-box-shadow: -6px 4px 6px 0 #222;
+  box-shadow: -6px 2px 6px 0 #222;
+}
+
+.selected-work-items-wrapper {
+  margin-left: 1em;
+  font-size: .85em;
+}
+
+.selected-work-items-group {
+
+  :not(:first-child) {
+    margin-left: 1em;
+  }
+
+}
+
+.wi-type-lbl {
+  font-weight: 400;
+}

@@ -10,6 +10,8 @@ import {getWorkItems, getWorkItemsError, getWorkItemsSuccess, selectWorkItem} fr
 import toastr from "toastr";
 import {bug, supportRequest, userStory} from "../../models/icons";
 import {type} from "os";
+import {BrowserRouter as Router} from "react-router-dom";
+import {groupBy} from "../../utils/array-utils";
 
 
 class WorkItems extends React.Component<
@@ -29,7 +31,8 @@ class WorkItems extends React.Component<
             workItems: [],
             isCallingApi: false,
             openWorkItems:[],
-            selectedWorkItems:[]
+            selectedWorkItems:[],
+            searchText:''
         } as WorkItemComponentState;
 
         this.toggleWi = this.toggleWi.bind(this);
@@ -71,8 +74,9 @@ class WorkItems extends React.Component<
     }
 
     componentWillReceiveProps(nextProps: any , nextContext: any): void {
+        const filteredItems = this.props.workItems.filter(wi => this.searchForValue(wi, this.state.searchText));
         this.setState(prevState => ({
-            workItems: nextProps.workItems,
+            workItems: this.state.searchText ? filteredItems: nextProps.workItems,
             openWorkItems: this.state.openWorkItems,
             selectedWorkItems: nextProps.selectWorkItems
         }));
@@ -111,7 +115,6 @@ class WorkItems extends React.Component<
     }
 
     toggleWorkItemSelected(event: any, workItemId: any ) {
-        event?.preventDefault();
         event?.stopPropagation();
         this.props.dispatch(selectWorkItem(workItemId));
     }
@@ -126,20 +129,25 @@ class WorkItems extends React.Component<
             ?.map(w => w.id);
 
         return (selectedTasks && selectedTasks?.length > 0 ) ?
-            <span>
             <span className="selected-tasks">
                 <b>{selectedTasks.length > 1 ? 'Tasks' : 'Task'}</b>: {selectedTasks.map( (value, index) => {
                 return index !== 0 ? `, ${value}`: value;
             })}</span>
-            </span>
-            : <span></span>;
+            : "";
     }
 
     renderSelectedWorkItems = (): React.ReactNode => {
-        return (this.state.selectedWorkItems && this.state.selectedWorkItems.length > 0)
-            ? <span className="selected-tasks lg"><b>Selected Work Items</b>: {this.state.selectedWorkItems.map( (w, index) => index !== 0 ? `, ${w}`: w )}
-              </span>
-            : <span></span>;
+        const selectedItems  = this.state?.selectedWorkItems?.map(swi => this.props.workItems.find(wi => wi.id === swi) ?? {type: 'Task', id: swi});
+        const groupedItems = groupBy('type')(selectedItems);
+
+        console.log(groupedItems);
+        return (groupedItems && Object.keys(groupedItems).length > 0)
+            ? <div className="selected-work-items-wrapper">
+                <div><b>Associating Commit To</b>:</div>
+                <div className="selected-work-items-group">{Object.keys(groupedItems).map((key: any) => <span ><span className="wi-type-lbl">{key}</span>: {
+                    groupedItems[key].map((wi: any, index: number) => index === 0 ? wi.id : `, ${wi.id}`)}</span>)}</div>
+              </div>
+            : "";
     }
     renderWorkItemTypeIcon = (wi: WorkItem) => {
          switch (wi.type) {
@@ -160,7 +168,8 @@ class WorkItems extends React.Component<
         const filteredItems = this.props.workItems.filter(wi => this.searchForValue(wi, filterText));
 
         this.setState({
-            workItems:filteredItems
+            workItems:filteredItems,
+            searchText: filterText
         });
     }
 
@@ -196,14 +205,12 @@ class WorkItems extends React.Component<
                             type="search"
                             placeholder="Search Work Items and Tasks"
                             id="search-wi"/>
-                        {this.renderSelectedWorkItems()}
                         <ul>
                             {this.state.workItems.map((wi: WorkItem, index: number) =>
                                 <span
                                     key={wi.id}
                                     className={ this.state.openWorkItems[index] ? "accordion open" : "accordion"}>
-                                    <li className="wi-list"
-                                        onClick={() => this.toggleWi(index)}>
+                                    <li className="wi-list">
                                         <div className="wi-header">
                                             <span>
                                                 <input
@@ -215,10 +222,13 @@ class WorkItems extends React.Component<
                                                     onClickCapture={event => this.toggleWorkItemSelected(event, wi.id)}
                                                     htmlFor={"task-"+ index} onClick={event => event.stopPropagation()}>{wi.name}</label>
                                             </span>
-                                            <span className="wi-type">{this.renderWorkItemTypeIcon(wi)} {wi.type}</span>
-                                            <span>{wi.status}</span>
-                                            {this.renderSelectedTasks(wi)}
-                                            <span>
+                                            <span
+                                                onClick={() => this.toggleWi(index)}
+                                                className="wi-type">{this.renderWorkItemTypeIcon(wi)} {wi.type}</span>
+                                            <span onClick={() => this.toggleWi(index)}>{wi.status} </span>
+                                            <span onClick={() => this.toggleWi(index)}>{this.renderSelectedTasks(wi)} </span>
+                                            <span
+                                                onClick={() => this.toggleWi(index)}>
                                                 <svg className="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                                   <title>chevron-down</title>
                                                   <polygon points="16 24.41 1.29 9.71 2.71 8.29 16 21.59 29.29 8.29 30.71 9.71 16 24.41"></polygon>
@@ -281,8 +291,14 @@ class WorkItems extends React.Component<
                                 )}
                         </ul>
                     </div>
-                    :""
+                    : ""
                 }
+                <div className="footer">
+                    <div>
+                        <button className="button primary" type="button">Submit</button>
+                    </div>
+                    {this.renderSelectedWorkItems()}
+                </div>
             </div>
         );
     }
@@ -294,9 +310,6 @@ const assignedToRender = (assignedTo: AssignedTo): React.ReactNode => (
         <img src={assignedTo?.pictureUrl}/>
     </span>
 );
-
-
-
 
 const select = (appState: AdoState) => {
     return {
