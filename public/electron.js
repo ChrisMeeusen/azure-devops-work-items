@@ -26,7 +26,8 @@ const createSettings = (filePath, mode) => {
         organization: '',
         team: '',
         project: '',
-        hasBeenLoaded: false
+        hasBeenLoaded: false,
+        selectedWorkItems: []
     };
 };
 
@@ -102,6 +103,14 @@ function createWindow () {
             }))
             .catch(reason => console.log(reason));
     });
+
+    // event listener for when the react app sends a shut down message to electron.
+    ipcMain.on('quit-app', ((event, args) => {
+        if(args){
+            console.log(args)
+        }
+        app.exit(0);
+    }));
 
     // Open the DevTools.
     if(isDev){

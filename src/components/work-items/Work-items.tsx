@@ -16,7 +16,7 @@ import {
 import toastr from "toastr";
 import {bug, supportRequest, userStory} from "../../models/icons";
 import {groupBy} from "../../utils/array-utils";
-
+const ipc = window.require("electron").ipcRenderer;
 
 class WorkItems extends React.Component<
     {
@@ -30,12 +30,13 @@ class WorkItems extends React.Component<
 
     constructor(props: any) {
         super(props);
+
         this.state = {
             hasNeededSettings: false,
             workItems: [],
             isCallingApi: false,
             openWorkItems:[],
-            selectedWorkItems:[],
+            selectedWorkItems:[],   //TODO here we need to set the selected work items from the store.
             searchText:''
         } as WorkItemComponentState;
 
@@ -47,6 +48,7 @@ class WorkItems extends React.Component<
         this.filterWorkItems = this.filterWorkItems.bind(this);
         this.renderSelectedWorkItems = this.renderSelectedWorkItems.bind(this);
         this.onAppKeyUp = this.onAppKeyUp.bind(this);
+        this.quitAppSendSelectedItems = this.quitAppSendSelectedItems.bind(this);
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
@@ -119,8 +121,14 @@ class WorkItems extends React.Component<
 
     onAppKeyUp = (event: any) => {
         if(event.key ==='Enter'){
-            console.log('Enter key event listener in work items screen',event.key);
+          this.quitAppSendSelectedItems();
         }
+    }
+
+    quitAppSendSelectedItems(){
+        const commitIds = `#${this.state.selectedWorkItems.join(',#')}`;
+        //TODO here we need to write out the repo.config file so that the current work items are persisted
+        ipc.send('quit-app', commitIds);
     }
 
     toggleWi(index: number) {
@@ -308,7 +316,10 @@ class WorkItems extends React.Component<
                 }
                 <div className="footer">
                     <div>
-                        <button className="button primary" type="button">Submit</button>
+                        <button
+                            onClick={() => this.quitAppSendSelectedItems()}
+                            className="button primary"
+                            type="button">Submit</button>
                     </div>
                     {this.renderSelectedWorkItems()}
                 </div>

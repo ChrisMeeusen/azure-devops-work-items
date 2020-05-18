@@ -6,7 +6,6 @@ import AppLayout from "./components/app-layout/AppLayout";
 import {saveDefaultSettings, saveRepoSettings} from "./redux/actions";
 import {SettingsViewModel} from "./models/settings";
 import {connect} from "react-redux";
-import {render} from "react-dom";
 const ipc = window.require("electron").ipcRenderer;
 
 class App extends React.Component<any, any>{
@@ -47,8 +46,7 @@ class App extends React.Component<any, any>{
 
   onAppKeyUp = (event: any) => {
     if(event.key ==='Escape'){
-      console.log('App Component escape key listener', event.key);
-      //TODO shut down app here.
+      ipc.send('quit-app');
     }
   }
 

@@ -8,6 +8,7 @@ export class SettingsViewModel {
     team?: string;
     project?: string;
     hasBeenLoaded?:boolean;
+    selectedWorkItems:  any [];
 }
 
 export enum SettingMode {
