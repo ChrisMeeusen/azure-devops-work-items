@@ -3,29 +3,34 @@ import {connect} from "react-redux";
 import './Work-items.scss';
 import {AdoState} from "../../redux/reducer";
 import {ADOSecurityContext} from "../../models/ado-api";
-import {getADOSecurityContext} from "../../redux/selectors";
+import {getADOSecurityContext, getSelectedWorkItems, rememberWorkItems} from "../../redux/selectors";
 import {AssignedTo, Task, WorkItem, WorkItemComponentState} from "../../models/work-item";
 import Loader from "../loading/Loader";
 import {
     clearSelectedWorkItems,
     getWorkItems,
     getWorkItemsError,
-    getWorkItemsSuccess,
+    getWorkItemsSuccess, saveRepoSettings,
     toggleWorkItemSelected
 } from "../../redux/actions";
 import toastr from "toastr";
 import {bug, supportRequest, userStory} from "../../models/icons";
 import {groupBy} from "../../utils/array-utils";
+import {SettingsViewModel} from "../../models/settings";
 const ipc = window.require("electron").ipcRenderer;
 
 class WorkItems extends React.Component<
     {
         adoSecurity: ADOSecurityContext,
         settingsLoaded: boolean,
-        getWorkItems(adoSecurity: ADOSecurityContext): Promise<WorkItem[]>,
         dispatch: any,
         workItems: WorkItem[],
-        selectWorkItems: any[]
+        selectWorkItems: any[],
+        repoSettings: SettingsViewModel,
+        defaultSettings: SettingsViewModel,
+        rememberWorkItems: boolean,
+        getWorkItems(adoSecurity: ADOSecurityContext): Promise<WorkItem[]>,
+        saveSettings(settings: SettingsViewModel): void
     }, WorkItemComponentState>{
 
     constructor(props: any) {
@@ -36,7 +41,7 @@ class WorkItems extends React.Component<
             workItems: [],
             isCallingApi: false,
             openWorkItems:[],
-            selectedWorkItems:[],   //TODO here we need to set the selected work items from the store.
+            selectedWorkItems: this.props.selectWorkItems,
             searchText:''
         } as WorkItemComponentState;
 
@@ -116,7 +121,9 @@ class WorkItems extends React.Component<
 
     componentWillUnmount(): void {
         document.removeEventListener("keyup", this.onAppKeyUp, false);
-        this.props.dispatch(clearSelectedWorkItems());
+        if(! this.props.rememberWorkItems) {
+            this.props.dispatch(clearSelectedWorkItems());
+        }
     }
 
     onAppKeyUp = (event: any) => {
@@ -127,7 +134,11 @@ class WorkItems extends React.Component<
 
     quitAppSendSelectedItems(){
         const commitIds = `#${this.state.selectedWorkItems.join(',#')}`;
-        //TODO here we need to write out the repo.config file so that the current work items are persisted
+        const rSettings  = this.props.repoSettings;
+        rSettings.selectedWorkItems = this.state.selectedWorkItems;
+
+        this.props.saveSettings(rSettings);
+        this.props.dispatch(saveRepoSettings(rSettings));
         ipc.send('quit-app', commitIds);
     }
 
@@ -215,7 +226,8 @@ class WorkItems extends React.Component<
     render(): React.ReactNode {
         return(
             <div className="work-items">
-                <h5 className="mb">Current Sprint Work Items</h5>
+                <h5>Current Sprint Work Items</h5>
+                <p>Press escape key to close app without associating work items.  Press enter key or click submit button to link selected work items.</p>
                 {this.state.isCallingApi ? <Loader message={"Fetching WorkItems"}></Loader> :""}
 
                 {!this.state.isCallingApi ?
@@ -340,7 +352,10 @@ const select = (appState: AdoState) => {
         adoSecurity: getADOSecurityContext(appState),
         settingsLoaded: appState.bothSettingsLoaded,
         workItems: appState.workItems,
-        selectWorkItems: appState.selectedWorkItemIds
+        selectWorkItems: getSelectedWorkItems(appState),
+        rememberWorkItems: rememberWorkItems(appState),
+        repoSettings: appState.repoSettings,
+        defaultSettings: appState.defaultSettings
     };
 };
 

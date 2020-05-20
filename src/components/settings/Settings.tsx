@@ -5,12 +5,13 @@ import {AdoState} from "../../redux/reducer";
 import {connect} from "react-redux";
 import {saveDefaultSettings, saveRepoSettings} from "../../redux/actions";
 
+
 class Settings extends React.Component<
     {   mode: SettingMode | undefined,
         repoSettings: SettingsViewModel | undefined,
         defaultSettings: SettingsViewModel | undefined,
         dispatch: any,
-        saveSettings( settings: SettingsViewModel): void
+        saveSettings(settings: SettingsViewModel): void
     }
         , SettingsComponentState> {
 

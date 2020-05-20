@@ -8,6 +8,7 @@ import {
     SAVE_DEFAULT_SETTINGS,
     SAVE_REPO_SETTINGS, TOGGLE_SELECTED_WORK_ITEM
 } from "./actions";
+import {rememberWorkItems} from "./selectors";
 
 export const emptyRS = {
     personalAccessToken:'',
@@ -56,14 +57,13 @@ export const adoReducer = (state: AdoState = initialState, action: any) => {
                 ...state,
                 repoSettings: action.settings,
                 bothSettingsLoaded: (state.defaultSettings?.hasBeenLoaded && action?.settings?.hasBeenLoaded),
-                workItems:[]
+                selectedWorkItemIds: (state.repoSettings?.selectedWorkItems as any[]) ?? []
             };
         case SAVE_DEFAULT_SETTINGS:
             return {
                 ...state,
                 defaultSettings: action.settings,
-                bothSettingsLoaded: (state.repoSettings?.hasBeenLoaded && action?.settings?.hasBeenLoaded),
-                workItems: []
+                bothSettingsLoaded: (state.repoSettings?.hasBeenLoaded && action?.settings?.hasBeenLoaded)
             };
         case GET_WORK_ITEMS:
             return state;

@@ -14,6 +14,10 @@ export const getADOSecurityContext = (state: AdoState): ADOSecurityContext => {
   }  as ADOSecurityContext
 };
 
+export const getSelectedWorkItems = (state: AdoState): any[] => rememberWorkItems(state) ? state.selectedWorkItemIds: [];
+
+export const rememberWorkItems = (state: AdoState): boolean => state.repoSettings?.rememberWorkItems ?? state.defaultSettings?.rememberWorkItems as boolean;
+
 /**
  * Do we have all the required settings to use the ADO apis?
  * @param settings

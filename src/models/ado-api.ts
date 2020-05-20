@@ -58,7 +58,6 @@ export interface ADOSecurityContext {
     team: string;
 }
 
-// TODO here starts Work Item
 export interface Avatar {
     href: string;
 }

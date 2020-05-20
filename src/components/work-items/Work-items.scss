@@ -171,9 +171,6 @@ td, th {
   background: #42a15c;
 }
 
-.mb {
-  margin-bottom: 1.5em;
-}
 .search-input {
   width: 61em;
   margin-left:1.5em;
@@ -215,4 +212,9 @@ td, th {
 
 .wi-type-lbl {
   font-weight: 400;
+}
+
+.callout.secondary{
+  margin-left: 1.5em;
+  margin-right: 1.5em
 }
