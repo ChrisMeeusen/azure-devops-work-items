@@ -114,9 +114,9 @@ class Settings extends React.Component<
 
         const description = this.state?.mode === SettingMode.Default
             ? `These default settings are associated with this machine.  These are used only when they aren't overridden 
-            in the repo settings.  For more information see the <a href="https://github.com/ChrisMeeusen/azure-devops-work-items#default" target="_blank">documentation.</a>`
+            in the repo settings.  For more information see the <a href="https://github.com/ChrisMeeusen/azure-devops-work-items#settings" target="_blank">documentation.</a>`
             : `These settings are used for this specific git repository.  If nothing is set here then the default settings are 
-            used.  For more information see the <a href="https://github.com/ChrisMeeusen/azure-devops-work-items#repo" target="_blank">documentation.</a>`;
+            used.  For more information see the <a href="https://github.com/ChrisMeeusen/azure-devops-work-items#settings" target="_blank">documentation.</a>`;
         return (
             <div className="settings" onKeyUp={this.handleKeyUp}>
                 <h5>{this.state?.mode} Settings</h5>
