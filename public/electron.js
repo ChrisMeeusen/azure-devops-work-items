@@ -4,6 +4,7 @@ const isDev =require("electron-is-dev");
 const fs = require("fs");
 const readFileToPromise = require("util").promisify(fs.readFile);
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+const process = require('process');
 
 Menu.setApplicationMenu(null);
 
@@ -43,15 +44,24 @@ function createWindow () {
     })
 
     // and load the index.html of the app.
-    win.loadURL(
+    if(isDev){
+        win.loadURL('http://localhost:3000');
+    } else {
+        win.loadFile(index.html);
+    }
+
+   /* win.loadURL(
         isDev ? 'http://localhost:3000' : `file://${path.join(__dirname,"../build/index.html")}`
-    );
+    );*/
 
     // This is for spawning new windows from the main app (in the case of opening external links and such)
     win.webContents.on("new-window", function(event, url) {
         event.preventDefault();
         shell.openExternal(url);
     });
+
+    // Printing current directory
+    console.log("Current working directory: ", process.cwd());
 
     const rFile = !isDev ? process.cwd() : path.join(__dirname,'../config/repo-conf.json');
     const dFile = path.join(app.getPath("appData"), 'azure-devops-work-items', 'conf.json');
@@ -144,7 +154,6 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
 if(isDev){
     app.whenReady().then(()=> {
         installExtension(REDUX_DEVTOOLS);
