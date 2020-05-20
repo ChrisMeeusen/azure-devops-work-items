@@ -4,6 +4,16 @@
   "main": "public/electron.js",
   "private": true,
   "homepage": "./",
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "build": "npm run react-build && npm run electron-build",
+    "build:release": "env NODE_ENV=production npm run build",
+    "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -26,18 +36,19 @@
     "redux": "^4.0.5",
     "rxjs": "^6.5.5",
     "toastr": "^2.1.4",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "electron-devtools-installer": "^3.0.0",
+    "electron-react-devtools": "^0.5.3"
   },
-  "scripts": {
-    "react-start": "react-scripts start",
-    "react-build": "react-scripts build",
-    "react-test": "react-scripts test",
-    "react-eject": "react-scripts eject",
-    "electron-build": "electron-builder",
-    "build": "npm run react-build && npm run electron-build",
-    "build:release": "env NODE_ENV=production npm run build",
-    "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
+  "devDependencies": {
+    "@types/react-redux": "^7.1.7",
+    "concurrently": "^5.1.0",
+    "electron": "^8.2.2",
+    "electron-builder": "^22.5.1",
+    "node-sass": "^4.13.1",
+    "wait-on": "^4.0.2"
   },
+
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -52,15 +63,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-redux": "^7.1.7",
-    "concurrently": "^5.1.0",
-    "electron": "^8.2.2",
-    "electron-builder": "^22.5.1",
-    "electron-devtools-installer": "^3.0.0",
-    "electron-react-devtools": "^0.5.3",
-    "node-sass": "^4.13.1",
-    "wait-on": "^4.0.2"
   }
 }
