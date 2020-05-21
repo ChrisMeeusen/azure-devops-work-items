@@ -25,6 +25,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/dist'
+    PathtoPublish: '$(Build.SourcesDirectory)/dist'
     ArtifactName: 'electron-apps'
     PublishLocation: 'Container'
