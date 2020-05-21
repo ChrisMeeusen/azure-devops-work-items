@@ -2,6 +2,8 @@
   "name": "azure-devops-work-items",
   "version": "0.1.0",
   "main": "public/electron.js",
+  "description": "This application provides a git hook to query your teams devops work items.",
+  "author": "Chris Meeusen",
   "private": true,
   "homepage": "./",
   "scripts": {
@@ -10,7 +12,9 @@
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
+    "electron-build:all": "electron-builder -mwl",
     "build": "npm run react-build && npm run electron-build",
+    "build:all": "npm run react-build && npm run electron-build:all",
     "build:release": "env NODE_ENV=production npm run build",
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
   },

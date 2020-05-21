@@ -69,6 +69,7 @@ function createWindow () {
         shell.openExternal(url);
     });
 
+
     // Printing current directory
     console.log("Current working directory: ", process.cwd());
 
