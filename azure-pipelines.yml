@@ -16,7 +16,15 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    npm install -g node-gyp
     npm install
     npm run build:all
   displayName: 'npm install and build'
+  env:
+    GH_TOKEN: $(gh.token)
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/dist'
+    ArtifactName: 'electron-apps'
+    PublishLocation: 'Container'
