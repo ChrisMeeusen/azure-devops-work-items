@@ -8,7 +8,6 @@ import {
     SAVE_DEFAULT_SETTINGS,
     SAVE_REPO_SETTINGS, TOGGLE_SELECTED_WORK_ITEM
 } from "./actions";
-import {rememberWorkItems} from "./selectors";
 
 export const emptyRS = {
     personalAccessToken:'',
