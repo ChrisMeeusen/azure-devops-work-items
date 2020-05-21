@@ -25,7 +25,10 @@
     "@types/react-router-dom": "^5.1.4",
     "@types/toastr": "^2.1.37",
     "cross-env": "^7.0.2",
+    "electron-debug": "^3.0.1",
+    "electron-devtools-installer": "^3.0.0",
     "electron-is-dev": "^1.2.0",
+    "electron-react-devtools": "^0.5.3",
     "foundation-sites": "^6.6.3",
     "jquery": "^3.5.0",
     "react": "^16.13.1",
@@ -36,9 +39,7 @@
     "redux": "^4.0.5",
     "rxjs": "^6.5.5",
     "toastr": "^2.1.4",
-    "typescript": "^3.7.5",
-    "electron-devtools-installer": "^3.0.0",
-    "electron-react-devtools": "^0.5.3"
+    "typescript": "^3.7.5"
   },
   "devDependencies": {
     "@types/react-redux": "^7.1.7",
@@ -48,7 +49,6 @@
     "node-sass": "^4.13.1",
     "wait-on": "^4.0.2"
   },
-
   "eslintConfig": {
     "extends": "react-app"
   },

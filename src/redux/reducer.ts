@@ -57,7 +57,7 @@ export const adoReducer = (state: AdoState = initialState, action: any) => {
                 ...state,
                 repoSettings: action.settings,
                 bothSettingsLoaded: (state.defaultSettings?.hasBeenLoaded && action?.settings?.hasBeenLoaded),
-                selectedWorkItemIds: (state.repoSettings?.selectedWorkItems as any[]) ?? []
+                selectedWorkItemIds: (action.settings?.selectedWorkItems as any[]) ?? []
             };
         case SAVE_DEFAULT_SETTINGS:
             return {

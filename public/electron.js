@@ -1,24 +1,29 @@
-const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, shell, ipcMain, remote } = require('electron')
 const path = require("path");
 const isDev =require("electron-is-dev");
 const fs = require("fs");
 const readFileToPromise = require("util").promisify(fs.readFile);
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
-const process = require('process');
 const debug = require('electron-debug');
 
-debug();
+debug({isEnabled: true});
 
 Menu.setApplicationMenu(null);
 
 const extractArg = ( argName ) => {
     const args = process.argv ?? [];
 
-    const arg = args.find(a => a.toLocaleLowerCase().startsWith(argName));
-    if(!arg) {
-        return null;
-    }
-    return arg.split(`${argName}=`).pop() || null;
+    const cmdLineArgs = args.filter(a => a.startsWith("--"));
+    const mappedArgs = cmdLineArgs && cmdLineArgs.map( cla => {
+        const split = cla.split('=');
+
+        return {arg: split[0], value: split[1]};
+    });
+    console.log(mappedArgs);
+    const argVal = mappedArgs
+        .find(ma => ma.arg.toLowerCase() === `--${argName.toLowerCase()}`);
+
+    return argVal ? argVal.value : null;
 };
 
 const createSettings = (filePath, mode) => {
@@ -68,10 +73,10 @@ function createWindow () {
 
     //const rFile = !isDev ? process.cwd() : path.join(__dirname,'../config/repo-conf.json');
 
-    const repoPathArg = extractArg('--repoPath');
+    const repoPathArg = extractArg('repoPath');
     // if the repo path was provided as an arg then tack on the file name to the path.
-    const argFile = repoPathArg ? `${repoPathArg}/repo-conf.json`: repoPathArg;
-
+    const argFile = repoPathArg ? path.join(repoPathArg,'repo-conf.json'): repoPathArg;
+    console.log("argFile: ", argFile);
     // use either the arg val or the default development file path
     const rFile = argFile ? argFile : path.join(__dirname,'../config/repo-conf.json');
     const dFile = path.join(app.getPath("appData"), 'azure-devops-work-items', 'conf.json');
