@@ -3,7 +3,12 @@ import {connect} from "react-redux";
 import './Work-items.scss';
 import {AdoState} from "../../redux/reducer";
 import {ADOSecurityContext} from "../../models/ado-api";
-import {getADOSecurityContext, getSelectedWorkItems, rememberWorkItems} from "../../redux/selectors";
+import {
+    getADOSecurityContext,
+    getSelectedWorkItems,
+    hasRequiredSettings,
+    rememberWorkItems
+} from "../../redux/selectors";
 import {AssignedTo, Task, WorkItem, WorkItemComponentState} from "../../models/work-item";
 import Loader from "../loading/Loader";
 import {
@@ -17,6 +22,7 @@ import toastr from "toastr";
 import {bug, supportRequest, userStory} from "../../models/icons";
 import {groupBy} from "../../utils/array-utils";
 import {SettingsViewModel} from "../../models/settings";
+import { Redirect } from 'react-router-dom';
 const ipc = window.require("electron").ipcRenderer;
 
 class WorkItems extends React.Component<
@@ -29,15 +35,17 @@ class WorkItems extends React.Component<
         repoSettings: SettingsViewModel,
         defaultSettings: SettingsViewModel,
         rememberWorkItems: boolean,
+        hasRequiredSettings: boolean,
         getWorkItems(adoSecurity: ADOSecurityContext): Promise<WorkItem[]>,
-        saveSettings(settings: SettingsViewModel): void
+        saveSettings(settings: SettingsViewModel): void,
+        appendCommitMessage(filePath: string, workItemString: string): void
     }, WorkItemComponentState>{
 
     constructor(props: any) {
         super(props);
 
         this.state = {
-            hasNeededSettings: false,
+            hasNeededSettings: this.props.hasRequiredSettings,
             workItems: [],
             isCallingApi: false,
             openWorkItems:[],
@@ -57,7 +65,7 @@ class WorkItems extends React.Component<
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
-        if(prevProps.settingsLoaded !== this.props.settingsLoaded && prevProps.settingsLoaded === false) {
+        if(prevProps.settingsLoaded !== this.props.settingsLoaded && prevProps.settingsLoaded === false && this.state.hasNeededSettings) {
             this.getWorkItemsFromApi();
         }
     }
@@ -90,7 +98,8 @@ class WorkItems extends React.Component<
         this.setState(prevState => ({
             workItems: this.state.searchText ? filteredItems: nextProps.workItems,
             openWorkItems: this.state.openWorkItems,
-            selectedWorkItems: nextProps.selectWorkItems
+            selectedWorkItems: nextProps.selectWorkItems,
+            hasNeededSettings: hasRequiredSettings({ repoSettings: nextProps.repoSettings, defaultSettings: nextProps.repoSettings} as any)
         }));
     }
 
@@ -113,7 +122,7 @@ class WorkItems extends React.Component<
     }
 
     componentDidMount(): void {
-        if(this.props.settingsLoaded) {
+        if(this.props.settingsLoaded && this.state.hasNeededSettings) {
             this.getWorkItemsFromApi();
         }
         document.addEventListener("keyup", this.onAppKeyUp, false);
@@ -139,6 +148,7 @@ class WorkItems extends React.Component<
 
         this.props.saveSettings(rSettings);
         this.props.dispatch(saveRepoSettings(rSettings));
+        this.props.appendCommitMessage(this.props.repoSettings.commitMessageFilePath as string, commitIds);
         ipc.send('quit-app', commitIds);
     }
 
@@ -224,6 +234,10 @@ class WorkItems extends React.Component<
     }
 
     render(): React.ReactNode {
+        if(!this.state.hasNeededSettings && this.props.settingsLoaded){
+            return <Redirect to="/settings/default"/>
+        }
+
         return(
             <div className="work-items">
                 <h5>Current Sprint Work Items</h5>
@@ -355,7 +369,8 @@ const select = (appState: AdoState) => {
         selectWorkItems: getSelectedWorkItems(appState),
         rememberWorkItems: rememberWorkItems(appState),
         repoSettings: appState.repoSettings,
-        defaultSettings: appState.defaultSettings
+        defaultSettings: appState.defaultSettings,
+        hasRequiredSettings: hasRequiredSettings(appState)
     };
 };
 

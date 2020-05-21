@@ -16,13 +16,18 @@ export const getADOSecurityContext = (state: AdoState): ADOSecurityContext => {
 
 export const getSelectedWorkItems = (state: AdoState): any[] => rememberWorkItems(state) ? state.selectedWorkItemIds: [];
 
-export const rememberWorkItems = (state: AdoState): boolean => state.repoSettings?.rememberWorkItems ?? state.defaultSettings?.rememberWorkItems as boolean;
+export const rememberWorkItems = (state: AdoState): boolean => state.repoSettings?.rememberWorkItems || state.defaultSettings?.rememberWorkItems as boolean;
 
 /**
  * Do we have all the required settings to use the ADO apis?
  * @param settings
  */
-export const hasRequiredSettings = (securityContext: ADOSecurityContext): boolean => {
-     return !!(securityContext.personalAccessToken && securityContext.organization
-         && securityContext.project && securityContext.team);
+export const hasRequiredSettings = (adoState: AdoState): boolean => {
+     return (notNullUndefinedWhitespace(adoState.repoSettings?.personalAccessToken) || notNullUndefinedWhitespace(adoState.defaultSettings?.personalAccessToken))
+         && (notNullUndefinedWhitespace(adoState.repoSettings?.organization) || notNullUndefinedWhitespace(adoState.defaultSettings?.organization))
+         && (notNullUndefinedWhitespace(adoState.repoSettings?.team) || notNullUndefinedWhitespace(adoState.defaultSettings?.team))
+         && (notNullUndefinedWhitespace(adoState.repoSettings?.project) || notNullUndefinedWhitespace(adoState.repoSettings?.project));
+
 };
+
+export const notNullUndefinedWhitespace = (value: any) : boolean => value !== undefined && value !== null && value?.trim() !=="";

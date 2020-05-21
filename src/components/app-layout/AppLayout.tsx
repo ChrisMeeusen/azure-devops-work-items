@@ -7,6 +7,7 @@ import Settings from "../settings/Settings";
 import {SettingMode, SettingsViewModel} from "../../models/settings";
 import {noop, saveSettings, toastError, toastOk} from "../../services/config-service";
 import {getADOWorkItems} from "../../services/ado-service";
+import {writeCommitMessage} from "../../services/commit-message-service";
 
 // Wrapped function that implements the success and error functions to make toast.  Yummy.
 const saveWithToast = (theSettings: SettingsViewModel) => saveSettings(theSettings, toastOk, toastError)
@@ -30,7 +31,8 @@ const AppLayout = () => {
                             path="/work-items">
                             <WorkItems
                                 getWorkItems={getADOWorkItems}
-                                saveSettings={saveWithNoOp}/>
+                                saveSettings={saveWithNoOp}
+                                appendCommitMessage={writeCommitMessage}/>
                         </Route>
                         <Route
                             key="2"

@@ -36,7 +36,8 @@ const createSettings = (filePath, mode) => {
         team: '',
         project: '',
         hasBeenLoaded: false,
-        selectedWorkItems: []
+        selectedWorkItems: [],
+        commitMessageFilePath:''
     };
 };
 
@@ -91,6 +92,7 @@ function createWindow () {
                         const obj =JSON.parse(data);
                         obj.filePath = rFile;
                         obj.mode = 'Repo';
+                        obj.commitMessageFilePath = extractArg('commitFile') ?? path.join(__dirname,'../config/commit-file.txt')
                         return obj;
                     })
                 );

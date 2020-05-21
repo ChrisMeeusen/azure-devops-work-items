@@ -9,6 +9,7 @@ export class SettingsViewModel {
     project?: string;
     hasBeenLoaded?:boolean;
     selectedWorkItems:  any [];
+    commitMessageFilePath?: string;
 }
 
 export enum SettingMode {
