@@ -6,6 +6,9 @@
   "author": "Chris Meeusen",
   "private": true,
   "homepage": "./",
+  "bin": {
+    "ado-hook": "hook-installer.js"
+  },
   "scripts": {
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
