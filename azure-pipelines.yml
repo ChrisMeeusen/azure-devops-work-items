@@ -19,4 +19,7 @@ steps:
     npm install
     npm run build:all
   displayName: 'npm install and build'
+  env:
+    GH_TOKEN: $(gh.token)
+
 
