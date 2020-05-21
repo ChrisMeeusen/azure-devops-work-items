@@ -5,6 +5,9 @@ const fs = require("fs");
 const readFileToPromise = require("util").promisify(fs.readFile);
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 const process = require('process');
+const debug = require('electron-debug');
+
+debug();
 
 Menu.setApplicationMenu(null);
 
@@ -43,16 +46,16 @@ function createWindow () {
         }
     })
 
-    // and load the index.html of the app.
+/*    // and load the index.html of the app.
     if(isDev){
         win.loadURL('http://localhost:3000');
     } else {
         win.loadFile(index.html);
-    }
+    }*/
 
-   /* win.loadURL(
+    win.loadURL(
         isDev ? 'http://localhost:3000' : `file://${path.join(__dirname,"../build/index.html")}`
-    );*/
+    );
 
     // This is for spawning new windows from the main app (in the case of opening external links and such)
     win.webContents.on("new-window", function(event, url) {
@@ -63,7 +66,14 @@ function createWindow () {
     // Printing current directory
     console.log("Current working directory: ", process.cwd());
 
-    const rFile = !isDev ? process.cwd() : path.join(__dirname,'../config/repo-conf.json');
+    //const rFile = !isDev ? process.cwd() : path.join(__dirname,'../config/repo-conf.json');
+
+    const repoPathArg = extractArg('--repoPath');
+    // if the repo path was provided as an arg then tack on the file name to the path.
+    const argFile = repoPathArg ? `${repoPathArg}/repo-conf.json`: repoPathArg;
+
+    // use either the arg val or the default development file path
+    const rFile = argFile ? argFile : path.join(__dirname,'../config/repo-conf.json');
     const dFile = path.join(app.getPath("appData"), 'azure-devops-work-items', 'conf.json');
 
     //TODO refactor these functions
