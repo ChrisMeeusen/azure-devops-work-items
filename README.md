@@ -52,4 +52,9 @@ if it isn't overridden by a repo setting.
 ##### Remember Selected Work Items?
 
 <a name="contrib" />
-#### Contributor / Developer Information
+##### Contributor Information
+
+
+TODO 
+write hook installer script.
+test it out.
