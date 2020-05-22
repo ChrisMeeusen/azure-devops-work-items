@@ -23,8 +23,23 @@ steps:
   env:
     GH_TOKEN: $(gh.token)
 
+- script: |
+    npm pack
+  displayName: 'npm package'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: '*.tgz'
+    TargetFolder: $(Build.ArtifactStagingDirectory)
+  displayName: 'Copy packages to artifacts staging directory'
+
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/dist'
-    ArtifactName: 'electron-apps'
-    PublishLocation: 'Container'
+    PathtoPublish: $(Build.ArtifactStagingDirectory) 
+    ArtifactName: 'package'
+    
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '$(Build.SourcesDirectory)/dist'
+#    ArtifactName: 'electron-apps'
+#    PublishLocation: 'Container'
