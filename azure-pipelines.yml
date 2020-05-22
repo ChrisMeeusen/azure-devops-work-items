@@ -26,7 +26,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-     '$(Build.SourcesDirectory)/dist'
+     '$(Build.SourcesDirectory)/dist/**'
      '$(Build.SourcesDirectory)/hook.js'
      '$(Build.SourcesDirectory)/hook-installer.js'
      '$(Build.SourcesDirectory)/package.json'
