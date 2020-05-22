@@ -1,5 +1,5 @@
 {
-  "name": "azure-devops-work-items",
+  "name": "@azure-devops-work-items/core",
   "version": "0.0.1-rc1",
   "main": "public/electron.js",
   "description": "This application provides a git hook to query your teams devops work items.",
