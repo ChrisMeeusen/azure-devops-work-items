@@ -26,17 +26,17 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-     $(Build.SourcesDirectory)/dist
-     $(Build.SourcesDirectory)/hook.js
-     $(Build.SourcesDirectory)/hook-installer.js
-     $(Build.SourcesDirectory)/package.json
-     $(Build.SourcesDirectory)/README.md
-    TargetFolder: $(Build.ArtifactStagingDirectory)/package
+     '$(Build.SourcesDirectory)/dist'
+     '$(Build.SourcesDirectory)/hook.js'
+     '$(Build.SourcesDirectory)/hook-installer.js'
+     '$(Build.SourcesDirectory)/package.json'
+     '$(Build.SourcesDirectory)/README.md'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/package'
   displayName: 'Copy files to artifacts staging directory'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: $(Build.ArtifactStagingDirectory)/package
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/package'
     ArtifactName: 'package'
     
 #- task: PublishBuildArtifacts@1
