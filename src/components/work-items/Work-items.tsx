@@ -12,7 +12,7 @@ import {
 import {AssignedTo, Task, WorkItem, WorkItemComponentState} from "../../models/work-item";
 import Loader from "../loading/Loader";
 import {
-    clearSelectedWorkItems,
+    clearSelectedWorkItems, clearWorkItems,
     getWorkItems,
     getWorkItemsError,
     getWorkItemsSuccess, saveRepoSettings,
@@ -52,6 +52,8 @@ class WorkItems extends React.Component<
             selectedWorkItems: this.props.selectWorkItems,
             searchText:''
         } as WorkItemComponentState;
+
+        this.props.dispatch(clearWorkItems());
 
         this.toggleWi = this.toggleWi.bind(this);
         this.toggleWorkItemSelected = this.toggleWorkItemSelected.bind(this);
@@ -246,12 +248,15 @@ class WorkItems extends React.Component<
 
                 {!this.state.isCallingApi ?
                     <div className="table-container">
-                        <input
+                        {this.state.workItems && this.state.workItems.length > 0 ?
+                            <input
                             onChange={ e => this.filterWorkItems(e.target.value) }
                             className="search-input"
                             type="search"
                             placeholder="Search Work Items and Tasks"
                             id="search-wi"/>
+                            :""
+                        }
                         <ul>
                             {this.state.workItems.map((wi: WorkItem, index: number) =>
                                 <span

@@ -1,7 +1,7 @@
 import {WorkItem} from "../models/work-item";
 import {SettingMode, SettingsViewModel} from "../models/settings";
 import {
-    CLEAR_SELECTED_WORK_ITEMS,
+    CLEAR_SELECTED_WORK_ITEMS, CLEAR_WORK_ITEMS,
     GET_WORK_ITEMS,
     GET_WORK_ITEMS_ERROR,
     GET_WORK_ITEMS_SUCCESS,
@@ -74,6 +74,8 @@ export const adoReducer = (state: AdoState = initialState, action: any) => {
             return {...state, selectedWorkItemIds: addOrRemove(state.selectedWorkItemIds, action.workItemId)}
         case CLEAR_SELECTED_WORK_ITEMS:
             return {...state, selectedWorkItemIds:[]}
+        case CLEAR_WORK_ITEMS:
+            return {...state, workItems: []}
         default:
             return state;
 

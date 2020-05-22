@@ -12,6 +12,8 @@ export const GET_WORK_ITEMS_ERROR = 'GET_WORK_ITEMS_ERROR';
 export const TOGGLE_SELECTED_WORK_ITEM = 'TOGGLE_SELECTED_WORK_ITEM';
 export const CLEAR_SELECTED_WORK_ITEMS = 'CLEAR_SELECTED_WORK_ITEMS';
 
+export const CLEAR_WORK_ITEMS = 'CLEAR_WORK_ITEMS';
+
 export const saveRepoSettings = (settings : SettingsViewModel) => {
     return { type: SAVE_REPO_SETTINGS, settings }
 }
@@ -38,4 +40,8 @@ export const toggleWorkItemSelected = (workItemId: any) => {
 
 export const clearSelectedWorkItems = () => {
     return {type: CLEAR_SELECTED_WORK_ITEMS}
+}
+
+export const clearWorkItems = () => {
+    return { type: CLEAR_WORK_ITEMS }
 }
