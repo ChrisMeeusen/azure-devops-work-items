@@ -23,19 +23,20 @@ steps:
   env:
     GH_TOKEN: $(gh.token)
 
-- script: |
-    npm pack
-  displayName: 'npm package'
-
 - task: CopyFiles@2
   inputs:
-    Contents: '*.tgz'
-    TargetFolder: $(Build.ArtifactStagingDirectory)
-  displayName: 'Copy packages to artifacts staging directory'
+    Contents: |
+     '$(Build.SourcesDirectory)/dist'
+     '$(Build.SourcesDirectory)/hook.js'
+     '$(Build.SourcesDirectory)/hook-installer.js'
+     '$(Build.SourcesDirectory)/package.json'
+     '$(Build.SourcesDirectory)/README.md
+    TargetFolder: $(Build.ArtifactStagingDirectory)/package
+  displayName: 'Copy files to artifacts staging directory'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: $(Build.ArtifactStagingDirectory) 
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/package
     ArtifactName: 'package'
     
 #- task: PublishBuildArtifacts@1
