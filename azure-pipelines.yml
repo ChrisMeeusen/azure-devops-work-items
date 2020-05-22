@@ -15,14 +15,6 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- task: CopyFiles@2
-  inputs:
-    Contents: |
-      $(Build.SourcesDirectory)/hook.js
-      $(Build.SourcesDirectory)/README.md
-    TargetFolder: $(Build.SourcesDirectory)/test
-  displayName: 'Test Copy files to artifacts staging directory'
-
 - script: |
     npm install -g node-gyp
     npm install
