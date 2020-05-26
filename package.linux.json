@@ -1,0 +1,7 @@
+{
+  "name": "azure-devops-work-items-linux",
+  "version": "0.0.1-rc1",
+  "description": "linux hook binary package",
+  "dependencies": {},
+  "devDependencies": {}
+}

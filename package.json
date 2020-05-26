@@ -15,6 +15,8 @@
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
+    "pkg-sync": "node package-script.js",
+    "pkg-rename": "node package-rename.js",
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "electron-build:all": "electron-builder -mwl",
