@@ -1,6 +1,7 @@
 {
   "name": "@azure-devops-work-items/core",
   "productName": "azure-devops-work-items",
+  "release": "never",
   "version": "0.0.1-rc1",
   "main": "public/electron.js",
   "description": "This application provides a git hook to query your teams devops work items.",
@@ -16,7 +17,7 @@
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
-    "electron-build:all": "electron-builder -mwl --publish=never",
+    "electron-build:all": "electron-builder -mwl",
     "build": "npm run react-build && npm run electron-build",
     "build:all": "npm run react-build && npm run electron-build:all",
     "build:release": "env NODE_ENV=production npm run build",
