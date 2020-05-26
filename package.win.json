@@ -1,0 +1,7 @@
+{
+  "name": "azure-devops-work-items-win",
+  "version": "0.0.1-rc1",
+  "description": "win hook binary package",
+  "dependencies": {},
+  "devDependencies": {}
+}
