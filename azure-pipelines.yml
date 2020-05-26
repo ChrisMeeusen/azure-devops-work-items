@@ -26,21 +26,37 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/**
       $(Build.SourcesDirectory)/hook.js
       $(Build.SourcesDirectory)/hook-installer.js
+      $(Build.SourcesDirectory)/post-install.js
       $(Build.SourcesDirectory)/package.json
       $(Build.SourcesDirectory)/README.md
-    TargetFolder: $(Build.SourcesDirectory)/package
-  displayName: 'Copy files to artifacts staging directory'
+    TargetFolder: $(Build.SourcesDirectory)/package/core
+  displayName: 'Core package file copies'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: |
+      $(Build.SourcesDirectory)/dist/mac
+    TargetFolder: $(Build.SourcesDirectory)/package/mac
+  displayName: 'Mac package file copies'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: |
+      $(Build.SourcesDirectory)/dist/win-unpacked
+    TargetFolder: $(Build.SourcesDirectory)/package/win
+  displayName: 'Windows package file copies'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: |
+      $(Build.SourcesDirectory)/dist/linux-unpacked
+    TargetFolder: $(Build.SourcesDirectory)/package/linux
+  displayName: 'Linux package file copies'
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: $(Build.SourcesDirectory)/package
     ArtifactName: 'package'
     
-#- task: PublishBuildArtifacts@1
-#  inputs:
-#    PathtoPublish: '$(Build.SourcesDirectory)/dist'
-#    ArtifactName: 'electron-apps'
-#    PublishLocation: 'Container'
