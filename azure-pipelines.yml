@@ -64,25 +64,19 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    Contents: |
-      $(Build.SourcesDirectory)/dist/mac.zip
-      $(Build.SourcesDirectory)/package.mac.json
+    Contents: $(Build.SourcesDirectory)/dist/mac.zip
     TargetFolder: $(Build.SourcesDirectory)/package/mac
   displayName: 'Mac package file copies'
 
 - task: CopyFiles@2
   inputs:
-    Contents: |
-      $(Build.SourcesDirectory)/dist/win.zip
-      $(Build.SourcesDirectory)/package.win.json
+    Contents: $(Build.SourcesDirectory)/dist/win.zip
     TargetFolder: $(Build.SourcesDirectory)/package/win
   displayName: 'Windows package file copies'
 
 - task: CopyFiles@2
   inputs:
-    Contents: |
-      $(Build.SourcesDirectory)/dist/linux.zip
-      $(Build.SourcesDirectory)/package.linux.json
+    Contents: $(Build.SourcesDirectory)/dist/linux.zip
     TargetFolder: $(Build.SourcesDirectory)/package/linux
   displayName: 'Linux package file copies'
 
