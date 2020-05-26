@@ -36,21 +36,21 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    Contents: |
+    Contents:
       $(Build.SourcesDirectory)/dist/mac
     TargetFolder: $(Build.SourcesDirectory)/package/mac
   displayName: 'Mac package file copies'
 
 - task: CopyFiles@2
   inputs:
-    Contents: |
+    Contents:
       $(Build.SourcesDirectory)/dist/win-unpacked
     TargetFolder: $(Build.SourcesDirectory)/package/win
   displayName: 'Windows package file copies'
 
 - task: CopyFiles@2
   inputs:
-    Contents: |
+    Contents:
       $(Build.SourcesDirectory)/dist/linux-unpacked
     TargetFolder: $(Build.SourcesDirectory)/package/linux
   displayName: 'Linux package file copies'
@@ -59,4 +59,3 @@ steps:
   inputs:
     PathtoPublish: $(Build.SourcesDirectory)/package
     ArtifactName: 'package'
-    
