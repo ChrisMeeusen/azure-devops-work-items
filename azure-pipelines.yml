@@ -23,6 +23,8 @@ steps:
   env:
     GH_TOKEN: $(gh.token)
 
+- script: npm run pkg-sync
+  displayName: 'package.json sync'
 
 - task: ArchiveFiles@2
   inputs:
@@ -80,6 +82,8 @@ steps:
     TargetFolder: $(Build.SourcesDirectory)/package/linux
   displayName: 'Linux package file copies'
 
+- script: npm run pkg-rename
+  displayName: 'package.json renames'
 
 - task: PublishBuildArtifacts@1
   inputs:
