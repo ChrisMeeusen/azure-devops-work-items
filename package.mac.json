@@ -1,7 +1,0 @@
-{
-  "name": "azure-devops-work-items-mac",
-  "version": "0.0.1-rc1",
-  "description": "mac hook binary package",
-  "dependencies": {},
-  "devDependencies": {}
-}
