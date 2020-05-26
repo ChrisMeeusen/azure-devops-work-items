@@ -57,6 +57,7 @@
     "concurrently": "^5.1.0",
     "electron": "^8.2.2",
     "electron-builder": "^22.5.1",
+    "googleapis": "^39.2.0",
     "node-sass": "^4.13.1",
     "wait-on": "^4.0.2"
   },

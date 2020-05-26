@@ -23,8 +23,33 @@ steps:
   env:
     GH_TOKEN: $(gh.token)
 
-- script: npm run pkg-sync
-  displayName: 'package.json sync'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: $(Build.SourcesDirectory)/dist/mac
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: $(Build.SourcesDirectory)/dist/mac.zip
+    replaceExistingArchive: true
+  displayName: 'zip mac binary'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: $(Build.SourcesDirectory)/dist/win-unpacked
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: $(Build.SourcesDirectory)/dist/win.zip
+    replaceExistingArchive: true
+  displayName: 'zip win binary'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: $(Build.SourcesDirectory)/dist/linux-unpacked
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: $(Build.SourcesDirectory)/dist/linux.zip
+    replaceExistingArchive: true
+  displayName: 'zip linux binary'
 
 - task: CopyFiles@2
   inputs:
@@ -40,7 +65,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/mac/**
+      $(Build.SourcesDirectory)/dist/mac.zip
       $(Build.SourcesDirectory)/package.mac.json
     TargetFolder: $(Build.SourcesDirectory)/package/mac
   displayName: 'Mac package file copies'
@@ -48,7 +73,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/win-unpacked/**
+      $(Build.SourcesDirectory)/dist/win.zip
       $(Build.SourcesDirectory)/package.win.json
     TargetFolder: $(Build.SourcesDirectory)/package/win
   displayName: 'Windows package file copies'
@@ -56,13 +81,11 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/linux-unpacked/**
+      $(Build.SourcesDirectory)/dist/linux.zip
       $(Build.SourcesDirectory)/package.linux.json
     TargetFolder: $(Build.SourcesDirectory)/package/linux
   displayName: 'Linux package file copies'
 
-- script: npm run pkg-rename
-  displayName: 'package.json renames'
 
 - task: PublishBuildArtifacts@1
   inputs:
