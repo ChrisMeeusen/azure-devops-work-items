@@ -21,7 +21,16 @@ that are in your team's current sprint.
 <a name="install"/>
 
 #### Install
-Todo hook install instructions here.
+The first time you use this hook on a machine you must first install the package globally.  To do so run this: ```npm i -g azure-devops-work-items```
+
+Once the package is installed, you can run this from the root of your git repo (the same directory that contains the .git folder)
+
+```ado-hook```
+
+If the install was successful you'll see this message:
+
+```Success:  git hook added to this repo!  For more information see here: https://github.com/ChrisMeeusen/azure-devops-work-items```
+
 
 <a name="settings" />
 
