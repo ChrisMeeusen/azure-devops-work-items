@@ -56,7 +56,3 @@ if it isn't overridden by a repo setting.
 
 ##### Contributor Information
 
-
-TODO 
-write hook installer script.
-test it out.

@@ -39,10 +39,10 @@ const install = (_os, globalNpmNodeModulesPath) => {
             binPath = binPath.replace(/\\/g, "\\\\");
             break;
         case 'Darwin':
-            binaryPackage='azure-devops-work-items-mac';
+            binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-mac','dist','mac','azure-devops-work-items.app');
             break;
         case 'Linux':
-            binaryPackage='azure-devops-work-items-linux';
+            binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-linux','dist','linux-unpacked','azure-devops-work-items');
             break;
     }
 

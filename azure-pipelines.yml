@@ -18,7 +18,7 @@ steps:
 - script: |
     npm install -g node-gyp
     npm install
-    npm run build:all
+    npm run build:all:release
   displayName: 'npm install and build'
   env:
     GH_TOKEN: $(gh.token)
