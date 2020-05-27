@@ -30,8 +30,9 @@ steps:
   inputs:
     rootFolderOrFile: $(Build.SourcesDirectory)/dist/mac
     includeRootFolder: false
-    archiveType: zip
-    archiveFile: $(Build.SourcesDirectory)/dist/mac.zip
+    archiveType: tar
+    tarCompression: gz
+    archiveFile: $(Build.SourcesDirectory)/dist/mac.tar
     replaceExistingArchive: true
   displayName: 'zip mac binary'
 
@@ -39,8 +40,9 @@ steps:
   inputs:
     rootFolderOrFile: $(Build.SourcesDirectory)/dist/win-unpacked
     includeRootFolder: false
-    archiveType: zip
-    archiveFile: $(Build.SourcesDirectory)/dist/win.zip
+    archiveType: tar
+    tarCompression: gz
+    archiveFile: $(Build.SourcesDirectory)/dist/win.tar
     replaceExistingArchive: true
   displayName: 'zip win binary'
 
@@ -48,8 +50,9 @@ steps:
   inputs:
     rootFolderOrFile: $(Build.SourcesDirectory)/dist/linux-unpacked
     includeRootFolder: false
-    archiveType: zip
-    archiveFile: $(Build.SourcesDirectory)/dist/linux.zip
+    archiveType: tar
+    tarCompression: gz
+    archiveFile: $(Build.SourcesDirectory)/dist/linux.tar
     replaceExistingArchive: true
   displayName: 'zip linux binary'
 
@@ -67,7 +70,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/mac.zip
+      $(Build.SourcesDirectory)/dist/mac.tar
       $(Build.SourcesDirectory)/package.mac.json
     TargetFolder: $(Build.SourcesDirectory)/package/mac
   displayName: 'Mac package file copies'
@@ -75,7 +78,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/win.zip
+      $(Build.SourcesDirectory)/dist/win.tar
       $(Build.SourcesDirectory)/package.win.json
     TargetFolder: $(Build.SourcesDirectory)/package/win
   displayName: 'Windows package file copies'
@@ -83,7 +86,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/linux.zip
+      $(Build.SourcesDirectory)/dist/linux.tar
       $(Build.SourcesDirectory)/package.linux.json
     TargetFolder: $(Build.SourcesDirectory)/package/linux
   displayName: 'Linux package file copies'
