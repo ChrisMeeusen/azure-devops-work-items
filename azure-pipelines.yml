@@ -32,7 +32,7 @@ steps:
     includeRootFolder: false
     archiveType: tar
     tarCompression: gz
-    archiveFile: $(Build.SourcesDirectory)/dist/mac.tar
+    archiveFile: $(Build.SourcesDirectory)/dist/mac.tar.gz
     replaceExistingArchive: true
   displayName: 'zip mac binary'
 
@@ -42,7 +42,7 @@ steps:
     includeRootFolder: false
     archiveType: tar
     tarCompression: gz
-    archiveFile: $(Build.SourcesDirectory)/dist/win.tar
+    archiveFile: $(Build.SourcesDirectory)/dist/win.tar.gz
     replaceExistingArchive: true
   displayName: 'zip win binary'
 
@@ -52,7 +52,7 @@ steps:
     includeRootFolder: false
     archiveType: tar
     tarCompression: gz
-    archiveFile: $(Build.SourcesDirectory)/dist/linux.tar
+    archiveFile: $(Build.SourcesDirectory)/dist/linux.tar.gz
     replaceExistingArchive: true
   displayName: 'zip linux binary'
 
@@ -70,7 +70,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/mac.tar
+      $(Build.SourcesDirectory)/dist/mac.tar.gz
       $(Build.SourcesDirectory)/package.mac.json
     TargetFolder: $(Build.SourcesDirectory)/package/mac
   displayName: 'Mac package file copies'
@@ -78,7 +78,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/win.tar
+      $(Build.SourcesDirectory)/dist/win.tar.gz
       $(Build.SourcesDirectory)/package.win.json
     TargetFolder: $(Build.SourcesDirectory)/package/win
   displayName: 'Windows package file copies'
@@ -86,7 +86,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: |
-      $(Build.SourcesDirectory)/dist/linux.tar
+      $(Build.SourcesDirectory)/dist/linux.tar.gz
       $(Build.SourcesDirectory)/package.linux.json
     TargetFolder: $(Build.SourcesDirectory)/package/linux
   displayName: 'Linux package file copies'
