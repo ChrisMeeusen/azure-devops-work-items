@@ -12,6 +12,7 @@
     "ado-hook": "hook-installer.js"
   },
   "scripts": {
+    "postinstall": "node post-install.js",
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
