@@ -6,7 +6,7 @@ const readFileToPromise = require("util").promisify(fs.readFile);
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 const debug = require('electron-debug');
 
-debug({isEnabled: true});
+//debug({isEnabled: true});
 
 Menu.setApplicationMenu(null);
 

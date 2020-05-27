@@ -26,9 +26,9 @@ exec(`npm i -g ${binaryPackage}`, (error, stdout, stderr) => {
         return;
     }
     if (stderr) {
-        console.log(`stderr: ${stderr}`);
+        console.log(`error: ${stderr}`);
         return;
     }
-    console.log(`stdout: ${stdout}`);
+    console.log(`Successfully installed ${binaryPackage}`);
 });
 
