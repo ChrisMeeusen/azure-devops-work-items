@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 const os = require('os');
 const { exec } = require("child_process");
-const fspath = require('path')
+const fspath = require('path');
+const fs = require('fs');
 
 // TODO hook install script here.
 // Control Flow:
