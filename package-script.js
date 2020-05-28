@@ -9,11 +9,14 @@ const mainPkg = JSON.parse(fs.readFileSync('./package.json'));
 const macPkg = JSON.parse(fs.readFileSync('./package.mac.json'));
 const linuxPkg = JSON.parse(fs.readFileSync('./package.linux.json'));
 const winPkg = JSON.parse(fs.readFileSync('./package.win.json'));
+const corePkg = JSON.parse(fs.readFileSync('./package.core.json'));
 
 macPkg.version = mainPkg.version;
 linuxPkg.version = mainPkg.version;
 winPkg.version = mainPkg.version;
+corePkg.version = mainPkg.version;
 
 fs.writeFileSync('./package.mac.json', JSON.stringify(macPkg, null, 2));
 fs.writeFileSync('./package.linux.json', JSON.stringify(linuxPkg, null, 2));
 fs.writeFileSync('./package.win.json', JSON.stringify(winPkg, null, 2));
+fs.writeFileSync('./package.core.json', JSON.stringify(corePkg, null, 2));

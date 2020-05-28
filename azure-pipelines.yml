@@ -62,7 +62,7 @@ steps:
       $(Build.SourcesDirectory)/hook.js
       $(Build.SourcesDirectory)/hook-installer.js
       $(Build.SourcesDirectory)/post-install.js
-      $(Build.SourcesDirectory)/package.json
+      $(Build.SourcesDirectory)/package.core.json
       $(Build.SourcesDirectory)/README.md
     TargetFolder: $(Build.SourcesDirectory)/package/core
   displayName: 'Core package file copies'

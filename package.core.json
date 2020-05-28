@@ -1,0 +1,19 @@
+{
+  "name": "azure-devops-work-items",
+  "productName": "azure-devops-work-items",
+  "release": "never",
+  "version": "0.0.1-rc10",
+  "main": "public/electron.js",
+  "description": "This application provides a git hook to query your teams devops work items.",
+  "author": "Chris Meeusen",
+  "private": false,
+  "homepage": "./",
+  "bin": {
+    "ado-hook": "hook-installer.js"
+  },
+  "scripts": {
+    "postinstall": "node post-install.js"
+  },
+  "dependencies": { },
+  "devDependencies": { }
+}

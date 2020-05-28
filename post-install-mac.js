@@ -26,7 +26,7 @@ const unzipFile = (_path) => {
 
     console.log('extracting archive...');
 
-    exec(`sudo -xvzf ${zipPath} -C ${destPath}`, (error, stdout, stderr) => {
+    exec(`tar -xvzf ${zipPath} -C ${destPath}`, (error, stdout, stderr) => {
         if( error || stderr){
             console.log("error extracting archive", error || stderr);
         }
