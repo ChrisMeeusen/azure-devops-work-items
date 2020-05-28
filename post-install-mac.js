@@ -4,7 +4,7 @@ const fspath = require('path');
 const fs = require('fs');
 
 
-exec('npm root -g', (error, stdout, stderr) => {
+exec('sudo npm root -g', (error, stdout, stderr) => {
     if( error || stderr){
         console.log("error determining npm global node_modules location", error || stderr);
     }
@@ -26,7 +26,7 @@ const unzipFile = (_path) => {
 
     console.log('extracting archive...');
 
-    exec(`tar -xvzf ${zipPath} -C ${destPath}`, (error, stdout, stderr) => {
+    exec(`sudo tar -xvzf ${zipPath} -C ${destPath}`, (error, stdout, stderr) => {
         if( error || stderr){
             console.log("error extracting archive", error || stderr);
         }
