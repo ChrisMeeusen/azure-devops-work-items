@@ -3,7 +3,7 @@
   "version": "0.0.1-rc1",
   "description": "mac hook binary package",
   "scripts": {
-    "postinstall": "post-install-mac.js"
+    "postinstall": "node post-install-mac.js"
   },
   "dependencies": {},
   "devDependencies": {}
