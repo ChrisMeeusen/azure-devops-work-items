@@ -4,12 +4,6 @@ const { exec } = require("child_process");
 const fspath = require('path');
 const fs = require('fs');
 
-// TODO hook install script here.
-// Control Flow:
-// Copy the contents of hook.js to .git/hooks/commit-msg
-// if error throw
-// else console.log('Successfully added hook')
-
 const _os = os.type();
 
 exec('npm root -g', (error, stdout, stderr) => {
@@ -32,21 +26,22 @@ const install = (_os, globalNpmNodeModulesPath) => {
     const repoHooksPath = fspath.join(currentDirectory, '.git','hooks');
     let hookPath = fspath.join(currentDirectory,'.git','hooks','commit-msg');
     let binPath;
-
+    let hookString;
     switch (_os) {
         case 'Windows_NT':
             binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-win','dist','win-unpacked','azure-devops-work-items.exe');
             binPath = binPath.replace(/\\/g, "\\\\");
+            hookString = hookScriptString(binPath,repoHooksPath);
             break;
         case 'Darwin':
             binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-mac','dist','mac','azure-devops-work-items.app');
+            hookString = hookScriptStringMac(binPath, repoHooksPath);
             break;
         case 'Linux':
             binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-linux','dist','linux-unpacked','azure-devops-work-items');
+            hookString = hookScriptString(binPath, repoHooksPath);
             break;
     }
-
-    const hookString = hookScriptString(binPath,repoHooksPath);
 
     fs.writeFile(hookPath, hookString, (err => {
         if(err) throw err;
@@ -61,6 +56,19 @@ var child_process = require('child_process');
 const cFile = process.argv[2];
 
 child_process.exec(\`"${binPath}" --repoPath=${repoHooksPath} --commitFile=\$\{cFile\}\`, (error, stdout, stderr) => {
+    if (error !== null) {
+        console.log(error);
+        process.exit(1);
+    }
+});
+`;
+
+const hookScriptStringMac = (binPath, repoHooksPath) => `#!/usr/bin/env node
+
+var child_process = require('child_process');
+const cFile = process.argv[2];
+
+child_process.exec(\`open "${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{cFile\}\`, (error, stdout, stderr) => {
     if (error !== null) {
         console.log(error);
         process.exit(1);

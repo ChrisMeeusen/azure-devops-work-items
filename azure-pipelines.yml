@@ -72,6 +72,7 @@ steps:
     Contents: |
       $(Build.SourcesDirectory)/dist/mac.tar.gz
       $(Build.SourcesDirectory)/package.mac.json
+      $(Build.SourcesDirectory)/post-install-mac.js
     TargetFolder: $(Build.SourcesDirectory)/package/mac
   displayName: 'Mac package file copies'
 
