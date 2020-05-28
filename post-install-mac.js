@@ -9,7 +9,7 @@ exec('sudo npm root -g', (error, stdout, stderr) => {
         console.log("error determining npm global node_modules location", error || stderr);
     }
     if(stdout){
-        unzipFile(stdout);
+        makeDir(stdout);
     }
 });
 
