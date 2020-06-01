@@ -15,7 +15,7 @@ exec('sudo npm root -g', (error, stdout, stderr) => {
 
 const makeDir = (_path) => {
     console.log('making directory to tar extract into');
-    fs.makeDirSync(fspath.join(_path,'azure-devops-work-items-mac','dist','mac'), {recursive: true});
+    fs.mkdirSync(fspath.join(_path,'azure-devops-work-items-mac','dist','mac'), {recursive: true});
     console.log('directory made');
     unzipFile(_path);
 }
