@@ -3,6 +3,7 @@ const { exec } = require("child_process");
 const fspath = require('path');
 const fs = require('fs');
 
+let tarUnzipDir;
 
 exec('sudo npm root -g', (error, stdout, stderr) => {
     if( error || stderr){
@@ -10,19 +11,20 @@ exec('sudo npm root -g', (error, stdout, stderr) => {
     }
     if(stdout){
         makeDir(stdout);
+        tarUnzipDir = fspath.join(stdout,'azure-devops-work-items-mac','dist','mac');
     }
 });
 
 const makeDir = (_path) => {
     console.log('making directory to tar extract into');
-    fs.mkdirSync(fspath.join(_path,'azure-devops-work-items-mac','dist','mac'), {recursive: true});
-    console.log('directory made');
+    fs.mkdirSync(tarUnzipDir, {recursive: true});
+    console.log('made: ', fspath.join(_path,'azure-devops-work-items-mac','dist','mac'));
     unzipFile(_path);
 }
 
 const unzipFile = (_path) => {
     const zipPath = fspath.join(_path, 'azure-devops-work-items-mac','dist','mac.tar.gz');
-    const destPath = fspath.join(_path, 'azure-devops-work-items-mac','dist', 'mac');
+    const destPath = tarUnzipDir;
 
     console.log('extracting archive...');
 
