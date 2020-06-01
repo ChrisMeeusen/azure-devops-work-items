@@ -5,6 +5,11 @@
   "bin": {
     "ado-hook-mac-setup": "post-install-mac.js"
   },
+  "files": [
+    "dist/mac.tar.gz",
+    "package.json",
+    "post-install-mac.js"
+  ],
   "dependencies": {},
   "devDependencies": {}
 }

@@ -23,7 +23,7 @@ const makeDir = (_path) => {
 }
 
 const unzipFile = (_path) => {
-    const zipPath = fspath.join(_path, 'azure-devops-work-items-mac','dist','mac.tar.gz');
+    const zipPath = fspath.join(_path, 'azure-devops-work-items-mac','dist','mac.tar');
     const destPath = tarUnzipDir;
 
     console.log('extracting archive...');
