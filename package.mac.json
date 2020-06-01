@@ -10,6 +10,9 @@
     "package.json",
     "post-install-mac.js"
   ],
+  "scripts": {
+    "postinstall": "node post-install-mac.js"
+  },
   "dependencies": {},
   "devDependencies": {}
 }
