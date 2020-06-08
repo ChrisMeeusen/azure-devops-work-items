@@ -23,7 +23,7 @@ exec('npm root -g', (error, stdout, stderr) => {
 
 const install = (_os, globalNpmNodeModulesPath) => {
     const currentDirectory = process.cwd();
-    const repoHooksPath = fspath.join(currentDirectory, '.git','hooks');
+    let repoHooksPath = fspath.join(currentDirectory, '.git','hooks');
     let hookPath = fspath.join(currentDirectory,'.git','hooks','commit-msg');
     let binPath;
     let hookString;
@@ -31,6 +31,7 @@ const install = (_os, globalNpmNodeModulesPath) => {
         case 'Windows_NT':
             binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-win','dist','azure-devops-work-items.exe');
             binPath = binPath.replace(/\\/g, "\\\\");
+            repoHooksPath = repoHooksPath.replace(/\\/g, "\\\\");
             hookString = hookScriptString(binPath,repoHooksPath);
             break;
         case 'Darwin':
