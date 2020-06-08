@@ -2,7 +2,7 @@
   "name": "azure-devops-work-items",
   "productName": "azure-devops-work-items",
   "release": "never",
-  "version": "0.0.1-rc18",
+  "version": "0.0.1-rc19",
   "main": "public/electron.js",
   "description": "This application provides a git hook to query your teams devops work items.",
   "author": "Chris Meeusen",
@@ -60,7 +60,9 @@
     "electron": "^8.2.2",
     "electron-builder": "^22.5.1",
     "googleapis": "^39.2.0",
+    "gunzip-maybe": "^1.4.2",
     "node-sass": "^4.13.1",
+    "tar-fs": "^2.1.0",
     "wait-on": "^4.0.2"
   },
   "eslintConfig": {

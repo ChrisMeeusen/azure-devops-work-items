@@ -29,7 +29,7 @@ const install = (_os, globalNpmNodeModulesPath) => {
     let hookString;
     switch (_os) {
         case 'Windows_NT':
-            binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-win','dist','win-unpacked','azure-devops-work-items.exe');
+            binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-win','dist','azure-devops-work-items.exe');
             binPath = binPath.replace(/\\/g, "\\\\");
             hookString = hookScriptString(binPath,repoHooksPath);
             break;
