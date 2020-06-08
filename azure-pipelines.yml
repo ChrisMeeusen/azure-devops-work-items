@@ -81,6 +81,7 @@ steps:
     Contents: |
       $(Build.SourcesDirectory)/dist/win.tar.gz
       $(Build.SourcesDirectory)/package.win.json
+      $(Build.SourcesDirectory)/post-install-win.js
     TargetFolder: $(Build.SourcesDirectory)/package/win
   displayName: 'Windows package file copies'
 
