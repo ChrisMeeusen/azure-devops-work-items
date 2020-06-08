@@ -248,7 +248,7 @@ class WorkItems extends React.Component<
 
                 {!this.state.isCallingApi ?
                     <div className="table-container">
-                        {this.state.workItems && this.state.workItems.length > 0 ?
+                        {this.props.workItems && this.props.workItems.length > 0 ?
                             <input
                             onChange={ e => this.filterWorkItems(e.target.value) }
                             className="search-input"
