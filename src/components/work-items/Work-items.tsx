@@ -127,6 +127,9 @@ class WorkItems extends React.Component<
         if(this.props.settingsLoaded && this.state.hasNeededSettings) {
             this.getWorkItemsFromApi();
         }
+        if(!this.props.rememberWorkItems) {
+            this.props.dispatch(clearSelectedWorkItems());
+        }
         document.addEventListener("keyup", this.onAppKeyUp, false);
     }
 
@@ -371,7 +374,7 @@ const select = (appState: AdoState) => {
         adoSecurity: getADOSecurityContext(appState),
         settingsLoaded: appState.bothSettingsLoaded,
         workItems: appState.workItems,
-        selectWorkItems: getSelectedWorkItems(appState),
+        selectWorkItems: appState.selectedWorkItemIds,
         rememberWorkItems: rememberWorkItems(appState),
         repoSettings: appState.repoSettings,
         defaultSettings: appState.defaultSettings,
