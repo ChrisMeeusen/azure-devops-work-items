@@ -5,6 +5,8 @@ const fs = require('fs');
 const tar = require('tar-fs');
 const gunzip = require('gunzip-maybe');
 
+console.log('extracting azure-devops-work-items-win zip file');
+
 exec('npm root -g', (error, stdout, stderr) => {
     if( error || stderr){
         console.log("error determining npm global node_modules location", error || stderr);
