@@ -52,13 +52,6 @@ function createWindow () {
         }
     })
 
-/*    // and load the index.html of the app.
-    if(isDev){
-        win.loadURL('http://localhost:3000');
-    } else {
-        win.loadFile(index.html);
-    }*/
-
     win.loadURL(
         isDev ? 'http://localhost:3000' : `file://${path.join(__dirname,"../build/index.html")}`
     );
@@ -77,7 +70,7 @@ function createWindow () {
 
     const repoPathArg = extractArg('repoPath');
     // if the repo path was provided as an arg then tack on the file name to the path.
-    const argFile = repoPathArg ? path.join(repoPathArg,'repo-conf-old.json'): repoPathArg;
+    const argFile = repoPathArg ? path.join(repoPathArg,'repo-conf.json'): repoPathArg;
     console.log("argFile: ", argFile);
     // use either the arg val or the default development file path
     const rFile = argFile ? argFile : path.join(__dirname,'../config/repo-conf.json');
