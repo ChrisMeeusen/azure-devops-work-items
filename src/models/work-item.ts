@@ -29,4 +29,5 @@ export interface WorkItemComponentState {
     openWorkItems: boolean[];
     selectedWorkItems: any[];
     searchText: string;
+    stateLoaded: boolean;
 }

@@ -50,7 +50,8 @@ class WorkItems extends React.Component<
             isCallingApi: false,
             openWorkItems:[],
             selectedWorkItems: this.props.selectWorkItems,
-            searchText:''
+            searchText:'',
+            stateLoaded: false
         } as WorkItemComponentState;
 
         this.props.dispatch(clearWorkItems());
@@ -101,7 +102,8 @@ class WorkItems extends React.Component<
             workItems: this.state.searchText ? filteredItems: nextProps.workItems,
             openWorkItems: this.state.openWorkItems,
             selectedWorkItems: nextProps.selectWorkItems,
-            hasNeededSettings: hasRequiredSettings({ repoSettings: nextProps.repoSettings, defaultSettings: nextProps.repoSettings} as any)
+            hasNeededSettings: nextProps.hasRequiredSettings,
+            stateLoaded: true
         }));
     }
 
@@ -239,7 +241,7 @@ class WorkItems extends React.Component<
     }
 
     render(): React.ReactNode {
-        if(!this.state.hasNeededSettings && this.props.settingsLoaded){
+        if(this.state.stateLoaded && !this.state.hasNeededSettings && this.props.settingsLoaded){
             return <Redirect to="/settings/default"/>
         }
 
@@ -370,7 +372,7 @@ const assignedToRender = (assignedTo: AssignedTo): React.ReactNode => (
 );
 
 const select = (appState: AdoState) => {
-    return {
+    const props = {
         adoSecurity: getADOSecurityContext(appState),
         settingsLoaded: appState.bothSettingsLoaded,
         workItems: appState.workItems,
@@ -380,6 +382,8 @@ const select = (appState: AdoState) => {
         defaultSettings: appState.defaultSettings,
         hasRequiredSettings: hasRequiredSettings(appState)
     };
+
+    return props;
 };
 
 export default connect(select)(WorkItems);

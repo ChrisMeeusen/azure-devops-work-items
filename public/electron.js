@@ -6,7 +6,7 @@ const readFileToPromise = require("util").promisify(fs.readFile);
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 const debug = require('electron-debug');
 
-debug({isEnabled: true});
+/*debug({isEnabled: true});*/
 
 Menu.setApplicationMenu(null);
 
@@ -35,7 +35,7 @@ const createSettings = (filePath, mode) => {
         organization: '',
         team: '',
         project: '',
-        hasBeenLoaded: false,
+        hasBeenLoaded: true,
         selectedWorkItems: [],
         commitMessageFilePath:''
     };
@@ -73,11 +73,11 @@ function createWindow () {
     // Printing current directory
     console.log("Current working directory: ", process.cwd());
 
-    //const rFile = !isDev ? process.cwd() : path.join(__dirname,'../config/repo-conf.json');
+    //const rFile = !isDev ? process.cwd() : path.join(__dirname,'../config/repo-conf-old.json');
 
     const repoPathArg = extractArg('repoPath');
     // if the repo path was provided as an arg then tack on the file name to the path.
-    const argFile = repoPathArg ? path.join(repoPathArg,'repo-conf.json'): repoPathArg;
+    const argFile = repoPathArg ? path.join(repoPathArg,'repo-conf-old.json'): repoPathArg;
     console.log("argFile: ", argFile);
     // use either the arg val or the default development file path
     const rFile = argFile ? argFile : path.join(__dirname,'../config/repo-conf.json');
