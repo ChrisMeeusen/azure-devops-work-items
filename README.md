@@ -16,7 +16,7 @@
 
 #### Description
 The purpose of this package is to provide you with a commit git hook that will conveniently show you a list of work items 
-that are in your team's current sprint.
+that are in your team's current sprint.  This package contains windows, mac, and linux binaries for the git hook (**currently the linux hook and binary is untested**).
 
 <a name="install"/>
 
@@ -31,6 +31,8 @@ If the install was successful you'll see this message:
 
 ```Success:  git hook added to this repo!  For more information see here: https://github.com/ChrisMeeusen/azure-devops-work-items```
 
+You only need to install this package globally once, but if you want to use it in several git repos, you'll need to repeat the ```ado-hook``` command once in each git repo you want integrated.
+
 
 <a name="settings" />
 
@@ -42,24 +44,30 @@ if it isn't overridden by a repo setting.
 <a name="pat" />
 
 ##### Personal Access Token
+Personal Access Tokens are tokens created in Azure Devops (ADO) and are used to integrate third part tools.  The hook uses the Personal Access Token to retrieve work item 
+information from ADO.  You'll need to generate a token for this tool that has the read work items scope.  That is the one and only scope required.
+
 
 <a name="org" />
 
 ##### Organization
-
-<a name="team" />
-
-##### Team
+The organization associated with your team.
 
 <a name="project" />
 
 ##### Project
+The project associated with your team.
+
+<a name="team" />
+
+##### Team
+Your team name.
 
 
 <a name="remember-work-items" />
 
 ##### Remember Selected Work Items?
-
+Do you want the hook to remember your selected work items?
 
 <a name="contrib" />
 
