@@ -45,7 +45,7 @@ if it isn't overridden by a repo setting.
 
 ##### Personal Access Token
 Personal Access Tokens are tokens created in Azure Devops (ADO) and are used to integrate third part tools.  The hook uses the Personal Access Token to retrieve work item 
-information from ADO.  You'll need to generate a token for this tool that has the read work items scope.  That is the one and only scope required.
+information from ADO.  You'll need to generate a token for this tool that has the read work items scope.  That is the one and only scope required. More information on [Personal Access Tokens](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page "Microsoft Documentation on PAT")
 
 
 <a name="org" />
