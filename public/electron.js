@@ -26,7 +26,7 @@ const extractArg = ( argName ) => {
     return argVal ? argVal.value : null;
 };
 
-const createSettings = (filePath, mode) => {
+const createSettings = (filePath, mode, commitFile) => {
     return {
         mode: mode,
         filePath: filePath,
@@ -37,7 +37,7 @@ const createSettings = (filePath, mode) => {
         project: '',
         hasBeenLoaded: true,
         selectedWorkItems: [],
-        commitMessageFilePath:''
+        commitMessageFilePath: commitFile
     };
 };
 
@@ -75,6 +75,11 @@ function createWindow () {
     // use either the arg val or the default development file path
     const rFile = argFile ? argFile : path.join(__dirname,'../config/repo-conf.json');
     const dFile = path.join(app.getPath("appData"), 'azure-devops-work-items', 'conf.json');
+    const commitFile = extractArg('commitFile');
+
+    const commitFileWithDefault = () => {
+        return commitFile ?? path.join(__dirname,'../config/commit-file.txt');
+    }
 
     //TODO refactor these functions
     const readRepo = new Promise((resolve, reject) => {
@@ -86,12 +91,12 @@ function createWindow () {
                         const obj =JSON.parse(data);
                         obj.filePath = rFile;
                         obj.mode = 'Repo';
-                        obj.commitMessageFilePath = extractArg('commitFile') ?? path.join(__dirname,'../config/commit-file.txt')
+                        obj.commitMessageFilePath = commitFileWithDefault()
                         return obj;
                     })
                 );
             }
-            resolve(createSettings(rFile,'Repo'));
+            resolve(createSettings(rFile,'Repo', commitFileWithDefault()));
         } catch (e) {
             reject('bad things happened', e);
         }
