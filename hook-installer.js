@@ -32,7 +32,7 @@ const install = (_os, globalNpmNodeModulesPath) => {
             binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-win','dist','azure-devops-work-items.exe');
             binPath = binPath.replace(/\\/g, "\\\\");
             repoHooksPath = repoHooksPath.replace(/\\/g, "\\\\");
-            hookString = hookScriptString(binPath,repoHooksPath);
+            hookString = hookScriptStringWin(binPath,repoHooksPath);
             break;
         case 'Darwin':
             binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-mac','dist','mac','azure-devops-work-items.app');
@@ -40,7 +40,7 @@ const install = (_os, globalNpmNodeModulesPath) => {
             break;
         case 'Linux':
             binPath= fspath.join(globalNpmNodeModulesPath,'azure-devops-work-items-linux','dist','linux-unpacked','azure-devops-work-items');
-            hookString = hookScriptString(binPath, repoHooksPath);
+            hookString = hookScriptStringMac(binPath, repoHooksPath);
             break;
     }
 
@@ -48,15 +48,17 @@ const install = (_os, globalNpmNodeModulesPath) => {
         if(err) throw err;
         console.log("Success:  git hook added to this repo!  For more information see here: https://github.com/ChrisMeeusen/azure-devops-work-items");
     }))
-
 }
 
-const hookScriptString = (binPath, repoHooksPath) => `#!/usr/bin/env node
+const hookScriptStringWin = (binPath, repoHooksPath) => `#!/usr/bin/env node
 
 var child_process = require('child_process');
-const cFile = process.argv[2];
 
-child_process.exec(\`"${binPath}" --repoPath=${repoHooksPath} --commitFile=\$\{cFile\}\`, (error, stdout, stderr) => {
+const hookPath =process.argv[1];
+const hookPathSplit = hookPath.split('\\\\');
+const commitFile = hookPathSplit.slice(0, hookPathSplit.length -3).join('\\\\');
+
+child_process.exec(\`open "${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{commitFile\}\`, (error, stdout, stderr) => {
     if (error !== null) {
         console.log(error);
         process.exit(1);
@@ -67,12 +69,8 @@ child_process.exec(\`"${binPath}" --repoPath=${repoHooksPath} --commitFile=\$\{c
 const hookScriptStringMac = (binPath, repoHooksPath) => `#!/usr/bin/env node
 
 var child_process = require('child_process');
-
-const hookPath =process.argv[1];
-const hookPathSplit = hookPath.split('\\\\');
-const commitFile = hookPathSplit.slice(0, hookPathSplit.length -3).join('\\\\');
-
-child_process.exec(\`open "${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{commitFile\}\`, (error, stdout, stderr) => {
+const cFile = process.argv[2];
+child_process.exec(\`open "${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{cFile\}\`, (error, stdout, stderr) => {
     if (error !== null) {
         console.log(error);
         process.exit(1);
