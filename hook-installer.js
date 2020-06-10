@@ -52,13 +52,16 @@ const install = (_os, globalNpmNodeModulesPath) => {
 
 const hookScriptStringWin = (binPath, repoHooksPath) => `#!/usr/bin/env node
 
+
 var child_process = require('child_process');
+var path = require('path');
 
 const hookPath =process.argv[1];
 const hookPathSplit = hookPath.split('\\\\');
-const commitFile = hookPathSplit.slice(0, hookPathSplit.length -3).join('\\\\');
+let commitFile = hookPathSplit.slice(0, hookPathSplit.length -3).join('\\\\');
+commitFile = path.join(commitFile, process.argv[2]);
 
-child_process.exec(\`open "${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{commitFile\}\`, (error, stdout, stderr) => {
+child_process.exec(\`"${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{commitFile\}\`, (error, stdout, stderr) => {
     if (error !== null) {
         console.log(error);
         process.exit(1);
