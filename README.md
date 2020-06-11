@@ -16,7 +16,7 @@
 
 #### Description
 The purpose of this package is to provide you with a commit git hook that will conveniently show you a list of work items 
-that are in your team's current sprint.  This package contains windows, mac, and linux binaries for the git hook (**currently the linux hook and binary is untested**).
+that are in your team's current sprint.  This package contains windows, mac, and linux binaries for the git hook (**currently the linux hook and binary is untested**).  For more information you can watch this [video](https://www.youtube.com/watch?v=Q0S_y1PKb8A).
 
 <a name="install"/>
 
