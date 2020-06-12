@@ -5,6 +5,10 @@
   "version": "0.0.1-rc10",
   "main": "public/electron.js",
   "description": "This application provides a git hook to query your teams devops work items.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChrisMeeusen/azure-devops-work-items.git"
+  },
   "author": "Chris Meeusen",
   "private": false,
   "homepage": "./",
