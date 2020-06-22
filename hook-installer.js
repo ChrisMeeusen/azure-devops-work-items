@@ -72,8 +72,15 @@ child_process.exec(\`"${binPath}" --args --repoPath=${repoHooksPath} --commitFil
 const hookScriptStringMac = (binPath, repoHooksPath) => `#!/usr/bin/env node
 
 var child_process = require('child_process');
+var path = require('path');
+
+const hookPath = process.argv[1];
 const cFile = process.argv[2];
-child_process.exec(\`open "${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{cFile\}\`, (error, stdout, stderr) => {
+const hookPathSplit = hookPath.split('/');
+let commitFile = hookPathSplit.slice(0, hookPathSplit.length -3).join('/');
+commitFile = path.join(commitFile, cFile);
+
+child_process.exec(\`open "${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{commitFile\}\`, (error, stdout, stderr) => {
     if (error !== null) {
         console.log(error);
         process.exit(1);
