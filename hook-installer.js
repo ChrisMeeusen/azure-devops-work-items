@@ -79,8 +79,9 @@ const cFile = process.argv[2];
 const hookPathSplit = hookPath.split('/');
 let commitFile = hookPathSplit.slice(0, hookPathSplit.length -3).join('/');
 commitFile = path.join(commitFile, cFile);
+binPath = path.join(binPath,'Contents','MacOS','azure-devops-work-items');
 
-child_process.exec(\`open "${binPath}" --args --repoPath=${repoHooksPath} --commitFile=\$\{commitFile\}\`, (error, stdout, stderr) => {
+child_process.exec(\`"${binPath}" --repoPath=${repoHooksPath} --commitFile=\$\{commitFile\}\`, (error, stdout, stderr) => {
     if (error !== null) {
         console.log(error);
         process.exit(1);
