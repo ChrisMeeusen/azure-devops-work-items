@@ -61,7 +61,7 @@
   "devDependencies": {
     "@types/react-redux": "^7.1.7",
     "concurrently": "^5.1.0",
-    "electron": "^8.2.2",
+    "electron": "^9.4.0",
     "electron-builder": "^22.5.1",
     "googleapis": "^39.2.0",
     "gunzip-maybe": "^1.4.2",
