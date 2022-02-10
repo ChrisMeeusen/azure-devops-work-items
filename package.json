@@ -65,7 +65,7 @@
     "electron-builder": "^22.5.1",
     "googleapis": "^39.2.0",
     "gunzip-maybe": "^1.4.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "tar-fs": "^2.1.0",
     "wait-on": "^4.0.2"
   },
