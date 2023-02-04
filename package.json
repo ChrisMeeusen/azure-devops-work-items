@@ -39,7 +39,7 @@
     "@types/node": "^12.12.35",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
-    "@types/react-router-dom": "^5.1.4",
+    "@types/react-router-dom": "^5.3.3",
     "@types/toastr": "^2.1.37",
     "cross-env": "^7.0.2",
     "electron-debug": "^3.0.1",
