@@ -52,7 +52,7 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "redux": "^4.0.5",
     "rxjs": "^6.5.5",
     "toastr": "^2.1.4",
@@ -65,9 +65,9 @@
     "electron-builder": "^22.5.1",
     "googleapis": "^39.2.0",
     "gunzip-maybe": "^1.4.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^9.0.0",
     "tar-fs": "^2.1.0",
-    "wait-on": "^4.0.2"
+    "wait-on": "^7.0.1"
   },
   "eslintConfig": {
     "extends": "react-app"
